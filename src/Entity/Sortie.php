@@ -47,6 +47,11 @@ class Sortie
      */
     private $infosSortie;
 
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $motif;
+
 
     public function getId(): ?int
     {
@@ -121,6 +126,18 @@ class Sortie
     public function setInfosSortie(string $infosSortie): self
     {
         $this->infosSortie = $infosSortie;
+
+        return $this;
+    }
+
+    public function getMotif(): ?string
+    {
+        return $this->motif;
+    }
+
+    public function setMotif(string $motif): self
+    {
+        $this->motif = $motif;
 
         return $this;
     }

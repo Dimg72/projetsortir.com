@@ -1,46 +1,27 @@
 {% extends 'base.html.twig' %}
 
-{% block stylesheets %}
-<link rel="stylesheet" href="CSS/cssDim.css" />
-{% endblock %}
 
 {% block body %}
-
-{#    <div class="form-cancel-out">#}
-{#        <form action="formAnnulS" method="POST">#}
-{#            <div>#}
-{#                <label for="nomsortie">Nom de la sortie: </label>#}
-{#                <input type="text" id="nomsortie" name="name_sortie" value="test" disabled>#}
-{#            </div>#}
-{#            <div>#}
-{#                <label for="datesortie" >Date de la sortie: </label>#}
-{#                <input text="text" id="datesortie" name="date_sortie" value="test" disabled>#}
-{#            </div>#}
-{#            <div>#}
-{#                <label for="camp" >Campus: </label>#}
-{#                <input text="text" id="camp" name="campus" value="test" disabled>#}
-{#            </div>#}
-{#            <div>#}
-{#                <label for="lieu" >Lieu: </label>#}
-{#                <input text="text" id="lieu" name="lieu" value="test" disabled>#}
-{#            </div>#}
-{#            <div>#}
-{#                <label for="motif" >Date de la sortie: </label>#}
-{#                <textarea text="text" id="motif" name="motif"></textarea>#}
-{#            </div>#}
-
-{#            <button class="btn btn-primary" type="submit">Enregistrer</button>#}
-{#            <button class="btn btn-primary" type="cancel">Annuler</button>#}
-{#        </form>#}
-{#    </div>#}
-
-            {{ form_start(AnnulerSortieForm)}}
-            {{ form_widget(AnnulerSortieForm) }}
-               <button class="btn btn-primary" type="submit">Enregistrer</button>
-               <button class="btn btn-primary" type="cancel">Annuler</button>
-            {{ form_end(AnnulerSortieForm) }}
-
-
+        <div class="infosAnnulSortie">
+        <div class="NameAnnuleSortie">
+                <p>Nom de la sortie:  </p>
+                        <p class="recupAnnuSortie"> TEST</p>
+        </div>
+        <div class="dateAnnuleSortie">
+                <p>Date de la sortie: </p>
+        </div>
+        <div class="CampAnnuleSortie">
+                <p>Campus: </p>
+        </div>
+        <div class="LieuAnnulSortie">
+                <p>Lieu: </p>
+        </div>
+        <div class="formAnnuleS">
+        {{ form_start(sortieCancelForm) }}
+        {{ form_widget(sortieCancelForm) }}
+        {{ form_end(sortieCancelForm) }}
+        </div>
+        </div>
 
 
 {% endblock %}

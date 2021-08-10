@@ -1,0 +1,17 @@
+.infosAnnulSortie {
+    display: grid;
+
+    justify-content: center;
+
+}
+
+textarea
+ {
+    margin-left: 150px;
+}
+
+.recupAnnuSortie {
+    display: flex;
+}
+
+

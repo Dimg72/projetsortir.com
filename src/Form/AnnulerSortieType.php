@@ -12,12 +12,7 @@ class AnnulerSortieType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nom')
-            ->add('dateHeureDebut')
-            ->add('duree')
-            ->add('dateLimiteInscription')
-            ->add('nbInscriptionsMax')
-            ->add('infosSortie')
+            ->add('motif')
         ;
     }
 

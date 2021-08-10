@@ -33,18 +33,17 @@ class GestionSortieController extends AbstractController
         $sortieCForm->handleRequest($request);
 
         if($sortieCForm->isSubmitted() && $sortieCForm->isValid()) {
-        //        $wishes->setDateCreated(new \DateTime());
-
+            
+            $sortieC->setMotif($sortieC);
             $entityManager->persist($sortieC);
             $entityManager->flush();
 
             $this->addFlash('sucess', 'Annulation de votre sortie, validée');
-            // A FAIRE
             return $this->redirectToRoute('main_home');
         }
 
-        return $this->render('gestion_sortie/sortieannulee.html.twig', [
-            'AnnulerSortieForm' => $sortieCForm->createView()
+            return $this->render('gestion_sortie/sortieannulee.html.twig', [
+                'sortieCancelForm' => $sortieCForm->createView()
         ]);
 
     }

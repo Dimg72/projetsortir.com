@@ -19,8 +19,11 @@ class MainController extends AbstractController
 
         //todo: Traiter le formulaire du filtre page d'acceuil
 
+        $sorties = $sortieRepository->findSorties();
+
         return $this->render('main/home.html.twig', [
-            'FilterActivityForm' => $FilterActivityForm->createView()
+            'FilterActivityForm' => $FilterActivityForm->createView(),
+            'sorties' => $sorties
         ]);
     }
 }

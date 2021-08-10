@@ -18,7 +18,7 @@ class GestionSortieController extends AbstractController
      */
     public function index(): Response
     {
-        return $this->render('gestion_sortie/index.html.twig', [
+        return $this->render('gestion_sortie/detailsParticipant.html.twig', [
             'controller_name' => 'GestionSortieController',
         ]);
     }

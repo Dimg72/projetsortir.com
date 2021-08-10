@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ utilisateur.nom ~ utilisateur.prenom}} | {{ parent() }}{% endblock %}
+
+{% block body %}
+    <h2>{{utilisateur.prenom}}</h2>
+    <label for="nom">Nom :</label>
+        <input type="text" readonly value="{{ utilisateur.telephone }}" name="nom">
+    <label for="prenom">Prènom :</label>
+        <input type="text" readonly value="{{ utilisateur.telephone }}" name="prenom">
+    <label for="tel">Numéro de téléphone :</label>
+        <input type="text" readonly value="{{ utilisateur.telephone }}" name="tel">
+    <label>Adresse mail : </label>
+        <input type="email" readonly value="{{ utilisateur.email }}" name="mail">
+{% endblock %}

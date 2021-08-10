@@ -1,0 +1,8 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ utilisateur.nom ~ utilisateur.prenom}} | {{ parent() }}{% endblock %}
+
+{% block body %}
+    <h2>{{ utilisateur.nom ~ utilisateur.prenom}}</h2>
+    {# todo : afficher les utilisateurs sous forme de liste #}
+{% endblock %}

@@ -3,15 +3,41 @@
 
     justify-content: center;
 
-}
+    margin-top: 120px;
 
+}
 textarea
  {
-    margin-left: 150px;
+    margin-left: 140px;
 }
 
-.recupAnnuSortie {
+.NameAnnuleSortie,
+.dateAnnuleSortie,
+.CampAnnuleSortie,
+.LieuAnnulSortie {
     display: flex;
+    margin-top: 15px;
 }
 
+.recupAnnuSortie1
+{
+    margin-left: 65px;
+}
+.recupAnnuSortie2 {
+    margin-left: 68px;
+}
+
+.recupAnnuSortie3 {
+    margin-left: 127px;
+}
+.recupAnnuSortie4 {
+    margin-left: 155px;
+}
+.formAnnuleS {
+    margin-top : 15px;
+}
+.bouttonFormAnnuler {
+    margin-top : 35px;
+    margin-right: 55px;
+}
 

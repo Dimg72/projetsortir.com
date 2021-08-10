@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Campus;
+use App\Entity\Lieu;
 use App\Entity\Sortie;
+use App\Entity\Ville;
 use App\Form\AnnulerSortieType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,17 +27,19 @@ class GestionSortieController extends AbstractController
     }
 
     /**
-     * @Route("/gestion/annulationsortie", name="gestion_sortie/annuler")
+     * @Route("/gestion/annulationsortie/{id}", name="gestion_sortie/annuler")
      */
-    public function annulerSortie(Request $request, EntityManagerInterface $entityManager) : Response {
+    public function annulerSortie(Request $request, EntityManagerInterface $entityManager, Sortie $sortie, Campus $campus,
+    Lieu $lieu, Ville $ville) : Response {
 
         $sortieC = new Sortie();
         $sortieCForm = $this->createForm(AnnulerSortieType::class, $sortieC);
         $sortieCForm->handleRequest($request);
+        dump($sortieC);
 
         if($sortieCForm->isSubmitted() && $sortieCForm->isValid()) {
-            
-            $sortieC->setMotif($sortieC);
+
+
             $entityManager->persist($sortieC);
             $entityManager->flush();
 
@@ -42,10 +47,26 @@ class GestionSortieController extends AbstractController
             return $this->redirectToRoute('main_home');
         }
 
-            return $this->render('gestion_sortie/sortieannulee.html.twig', [
+            return $this->render('gestion_sortie/sortieannulee.html.twig', [ 'sortie' => $sortie, 'campus' => $campus,
+                'lieu' => $lieu, 'ville' => $ville,
                 'sortieCancelForm' => $sortieCForm->createView()
         ]);
+        //todo: Faire if pour annuler la sortie une fois enregistré
+    }
+
+
+
+
+
+
+
+
+    /**
+     * @Route("/gestion/inscrireSortie", name="gestion_sortie/inscrire")
+     */
+    public function inscrireSortie() {
 
     }
+
 
 }

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Sortie;
+use App\Form\AnnulerSortieType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,7 +29,7 @@ class GestionSortieController extends AbstractController
     public function annulerSortie(Request $request, EntityManagerInterface $entityManager) : Response {
 
         $sortieC = new Sortie();
-        $sortieCForm = $this->createForm($sortieC);
+        $sortieCForm = $this->createForm(AnnulerSortieType::class, $sortieC);
         $sortieCForm->handleRequest($request);
 
         if($sortieCForm->isSubmitted() && $sortieCForm->isValid()) {
@@ -38,10 +39,13 @@ class GestionSortieController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('sucess', 'Annulation de votre sortie, validée');
+            // A FAIRE
             return $this->redirectToRoute('main_home');
         }
 
-        return $this->render('gestion_sortie/sortieannulee.html.twig');
+        return $this->render('gestion_sortie/sortieannulee.html.twig', [
+            'AnnulerSortieForm' => $sortieCForm->createView()
+        ]);
 
     }
 

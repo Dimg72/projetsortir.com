@@ -6,40 +6,43 @@
 
 {% block body %}
 
-    <div class="form-cancel-out">
-        <form action="formAnnulS" method="POST">
-            <div>
-                <label for="nomsortie">Nom de la sortie: </label>
-                <input type="text" id="nomsortie" name="name_sortie" value="test" disabled>
-            </div>
-            <div>
-                <label for="datesortie" >Date de la sortie: </label>
-                <input text="text" id="datesortie" name="date_sortie" value="test" disabled>
-            </div>
-            <div>
-                <label for="camp" >Campus: </label>
-                <input text="text" id="camp" name="campus" value="test" disabled>
-            </div>
-            <div>
-                <label for="lieu" >Lieu: </label>
-                <input text="text" id="lieu" name="lieu" value="test" disabled>
-            </div>
-            <div>
-                <label for="motif" >Date de la sortie: </label>
-                <textarea text="text" id="motif" name="motif"></textarea>
-            </div>
+{#    <div class="form-cancel-out">#}
+{#        <form action="formAnnulS" method="POST">#}
+{#            <div>#}
+{#                <label for="nomsortie">Nom de la sortie: </label>#}
+{#                <input type="text" id="nomsortie" name="name_sortie" value="test" disabled>#}
+{#            </div>#}
+{#            <div>#}
+{#                <label for="datesortie" >Date de la sortie: </label>#}
+{#                <input text="text" id="datesortie" name="date_sortie" value="test" disabled>#}
+{#            </div>#}
+{#            <div>#}
+{#                <label for="camp" >Campus: </label>#}
+{#                <input text="text" id="camp" name="campus" value="test" disabled>#}
+{#            </div>#}
+{#            <div>#}
+{#                <label for="lieu" >Lieu: </label>#}
+{#                <input text="text" id="lieu" name="lieu" value="test" disabled>#}
+{#            </div>#}
+{#            <div>#}
+{#                <label for="motif" >Date de la sortie: </label>#}
+{#                <textarea text="text" id="motif" name="motif"></textarea>#}
+{#            </div>#}
 
-            <button class="btn btn-primary" type="submit">Enregistrer</button>
-            <button class="btn btn-primary" type="cancel">Annuler</button>
-        </form>
+{#            <button class="btn btn-primary" type="submit">Enregistrer</button>#}
+{#            <button class="btn btn-primary" type="cancel">Annuler</button>#}
+{#        </form>#}
+{#    </div>#}
+
+            {{ form_start(AnnulerSortieForm)}}
+            {{ form_widget(AnnulerSortieForm) }}
+               <button class="btn btn-primary" type="submit">Enregistrer</button>
+               <button class="btn btn-primary" type="cancel">Annuler</button>
+            {{ form_end(AnnulerSortieForm) }}
 
 
-    </div>
 
 
-    <div class="test">
-        <p> test de css</p>
-    </div>
 {% endblock %}
 
 {% block title %}

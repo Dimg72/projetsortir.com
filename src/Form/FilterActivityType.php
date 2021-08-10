@@ -3,10 +3,11 @@
 namespace App\Form;
 
 
-use Doctrine\DBAL\Types\TextType;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 
@@ -22,8 +23,9 @@ class FilterActivityType extends AbstractType
                     'Niort' => 'Niort'
                 ],
                 'multiple'=>false
+
             ])
-            ->add('Search', TextType::class,[
+            ->add('Search', TextType::class, [
                 'label' => 'Le nom de la sortie contient : '
             ])
             ->add('DateStart', DateType::class, [
@@ -40,7 +42,10 @@ class FilterActivityType extends AbstractType
                     'Sorties auxquelles je suis incrit/e' => 'inscrit',
                     'Sorties auxquelles je ne suis pas incrit/e' => 'non inscrit',
                     'Sorties passés' => 'historique'
-                ]
+                ],
+                'multiple' => true,
+                'expanded'  =>true
+
             ])
         ;
     }

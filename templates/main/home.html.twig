@@ -1,7 +1,32 @@
 {% extends 'base.html.twig' %}
 
+{% form_theme FilterActivityForm 'bootstrap_4_layout.html.twig' %}
+
 {% block title %}Home | {{ parent() }}{% endblock %}
 
 {% block body %}
-<h1>Bienvenue !</h1>
+
+
+    {{ form_start(FilterActivityForm) }}
+    <div class="d-flex justify-content-start     align-items-center">
+        <div class="ms-4 me-4">
+            {{ form_row(FilterActivityForm.Campus)}}
+            {{ form_row(FilterActivityForm.Search)}}
+            {{ form_row(FilterActivityForm.DateStart)}}
+            {{ form_row(FilterActivityForm.DateEnd)}}
+        </div>
+        <div class="ms-4 me-4">
+            {{ form_row(FilterActivityForm.Filter)}}
+        </div>
+
+        <div>
+            <button class="ms-4 me-4 h-50 btn-lg ">Rechercher</button>
+        </div>
+
+
+
+    </div>
+
+    {{ form_end(FilterActivityForm) }}
+
 {% endblock %}

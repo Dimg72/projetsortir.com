@@ -23,10 +23,21 @@
             <button class="ms-4 me-4 h-50 btn-lg ">Rechercher</button>
         </div>
 
-
-
     </div>
 
     {{ form_end(FilterActivityForm) }}
+
+<table>
+    <thead>
+        <tr>
+            <th>Nom de la sortie</th>
+            <th>Date de sortie</th>
+            <th></th>
+        </tr>
+    </thead>
+</table>
+    {% for sortie in sorties %}
+
+</section>
 
 {% endblock %}

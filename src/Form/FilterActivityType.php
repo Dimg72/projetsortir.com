@@ -4,6 +4,8 @@ namespace App\Form;
 
 
 
+use App\Entity\Campus;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -16,17 +18,14 @@ class FilterActivityType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('Campus', ChoiceType::class, [
-                'choices'=>[
-                    'Nantes'=>'Nantes',
-                    'Brest'=>'Brest',
-                    'Niort' => 'Niort'
-                ],
-                'multiple'=>false
+            ->add('Campus', EntityType::class,[
+                'class'=>Campus::class,
+                'choice_label' => 'nom'
 
             ])
             ->add('Search', TextType::class, [
-                'label' => 'Le nom de la sortie contient : '
+                'label' => 'Le nom de la sortie contient : ',
+                'required' => false
             ])
             ->add('DateStart', DateType::class, [
                 'html5' => true,
@@ -44,7 +43,9 @@ class FilterActivityType extends AbstractType
                     'Sorties passés' => 'historique'
                 ],
                 'multiple' => true,
-                'expanded'  =>true
+                'expanded'  =>true,
+                'label'=> ' '
+
 
             ])
         ;

@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Utilisateur;
+use App\Entity\Participant;
 use App\Repository\UtilisateurRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,9 +11,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class UtilisateurController extends AbstractController
 {
     /**
-     * @Route("/utilisateurs/details/{id}", name="utilisateurs_details")
+     * @Route("/participants/details/{id}", name="participants_details")
      */
-    public function details(Utilisateur $user): Response
+    public function details(Participant $user): Response
     {
         return $this->render('utilisateur/detailsParticipant.html.twig',[
             "utilisateur" => $user
@@ -21,13 +21,13 @@ class UtilisateurController extends AbstractController
     }
 
     /**
-     * @Route("/utilisateurs/", name="utilisateurs")
+     * @Route("/participants/", name="participants_liste")
      */
     public function liste(UtilisateurRepository $utilisateurRepository): Response
     {
         $users = $utilisateurRepository->findAll();
 
-        return $this->render('utilisateur/listeUtilisateurs.html.twig', [
+        return $this->render('utilisateur/listeParticipants.html.twig', [
             "utilisateurs" => $users
         ]);
     }

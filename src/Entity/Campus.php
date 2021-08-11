@@ -25,7 +25,7 @@ class Campus
     private $nom;
 
     /**
-     * @ORM\OneToMany(targetEntity=Utilisateur::class, mappedBy="campus")
+     * @ORM\OneToMany(targetEntity=Participant::class, mappedBy="campus")
      */
     private $participants;
 
@@ -52,14 +52,14 @@ class Campus
     }
 
     /**
-     * @return Collection|Utilisateur[]
+     * @return Collection|Participant[]
      */
     public function getParticipants(): Collection
     {
         return $this->participants;
     }
 
-    public function addParticipant(Utilisateur $participant): self
+    public function addParticipant(Participant $participant): self
     {
         if (!$this->participants->contains($participant)) {
             $this->participants[] = $participant;
@@ -69,7 +69,7 @@ class Campus
         return $this;
     }
 
-    public function removeParticipant(Utilisateur $participant): self
+    public function removeParticipant(Participant $participant): self
     {
         if ($this->participants->removeElement($participant)) {
             // set the owning side to null (unless already changed)

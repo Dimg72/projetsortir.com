@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\User;
 use Symfony\Component\Validator\Constraints\Date;
 
 
@@ -64,10 +65,41 @@ class GestionSortieController extends AbstractController
 
 
     /**
-     * @Route("/gestion/inscrireSortie", name="gestion_sortie/inscrire")
+     * @Route("/gestion/inscriresortie/{id}", name="gestion_sortie/inscrire")
      */
-    public function inscrireSortie(Participant $participant, EntityManagerInterface $entityManager) {
+    public function inscrireSortie($id, Sortie $sortie, EntityManagerInterface $entityManager) {
+            $dateDuJour = new \DateTime();
+            $participant = $this->getUser();
+            // A VOIR COMMENT FAIRE EN FONCTION ID SORTIE !
+            $sortie->getId($id);
 
+        if($sortie->getEtat()->getLibelle() === "Ouverte" AND $sortie->getDateLimiteInscription() < $dateDuJour ) {
+            // inscription du participant dans la sortie
+                $sortie->addParticipant($participant);
+                $entityManager->persist($sortie);
+                $entityManager->flush();
+
+                return $this->render('main/home.html.twig');
+            }
+
+    }
+
+
+    /**
+     * @Route("/gestion/desistersortie/{id}", name="gestion_sortie/desister")
+     */
+    public function desisterSortie(Sortie $sortie, EntityManagerInterface $entityManager) {
+        $dateDuJour = new \DateTime();
+
+        $user = $this->getUser();
+
+        if($sortie->getDateHeureDebut() < $dateDuJour) {
+            $sortie->removeParticipant($user);
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+
+            return $this->render('main/home.html.twig');
+        }
     }
 
 

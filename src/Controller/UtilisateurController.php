@@ -21,7 +21,7 @@ class UtilisateurController extends AbstractController
     }
 
     /**
-     * @Route("/participants/", name="participants_liste")
+     * @Route("/participants", name="participants_liste")
      */
     public function liste(UtilisateurRepository $utilisateurRepository): Response
     {

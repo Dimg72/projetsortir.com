@@ -8,7 +8,7 @@
 
 <div class="container">
     {{ form_start(FilterActivityForm) }}
-    <div class="d-flex justify-content-start     align-items-center">
+    <div class="d-flex justify-content-start     align-items-center mb-5">
         <div class="ms-4 me-4">
             {{ form_row(FilterActivityForm.Campus)}}
             {{ form_row(FilterActivityForm.Search)}}
@@ -54,13 +54,20 @@
         {% for sortie in sorties %}
             <tr>
                 <td>{{ sortie.nom }}</td>
-                <td>{{ sortie.dateHeureDebut }}</td>
-                <td>{{ sortie.dateLimiteInscription }}</td>
+                <td>{{ sortie.dateHeureDebut |format_datetime('short', 'short', locale='fr') }}</td>
+                <td>{{ sortie.dateLimiteInscription |format_datetime('short', 'short', locale='fr') }}</td>
                 <td>{{ sortie.participants|length}}/{{ sortie.nbInscriptionsMax }}</td>
-                <td>{{ sortie.etat }}</td>
+                <td>{{ sortie.etat.libelle }}</td>
                 <td> todo dans le controler </td>
-                <td>{{ sortie.organisateur }}</td>
-                <td>todo dans le controler</td>
+                <td>{{ sortie.organisateur.prenom|first }}.{{ sortie.organisateur.nom }}</td>
+                <td>
+
+                    {% if sortie.organisateur.email == app.user.email %}
+                        <a href="#">Afficher</a> - <a href="#">Modifier</a>
+                    {% else %}
+                        <a href="#">Afficher</a> - <a href="#">S'inscrire</a>
+                    {% endif %}
+                </td>
             </tr>
 
         {% endfor %}

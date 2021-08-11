@@ -3,29 +3,35 @@
 
 {% block body %}
         <div class="infosAnnulSortie">
-        <div class="NameAnnuleSortie">
-                <p>Nom de la sortie:  </p>
-                        <p class="recupAnnuSortie1" style="color : darkcyan"> {{ sortie.nom }}</p>
-        </div>
-        <div class="dateAnnuleSortie">
-                <p>Date de la sortie: </p>
-                <p class="recupAnnuSortie2" style="color : darkcyan" > {{ sortie.dateHeureDebut | date('d-m-Y') }}</p>
-        </div>
-        <div class="CampAnnuleSortie">
-                <p>Campus: </p>
-                <p class="recupAnnuSortie3" style="color : darkcyan"> {{ campus.nom }}</p>
-        </div>
-        <div class="LieuAnnulSortie">
-                <p>Lieu: </p>
-                <p class="recupAnnuSortie4" style="color : darkcyan"> {{ lieu.rue }} {{ ville.nom }} {{ ville.codePostal }}</p>
-        </div>
-        <div class="formAnnuleS">
-        {{ form_start(sortieCancelForm) }}
-        {{ form_widget(sortieCancelForm) }}
-                <input class="bouttonFormAnnuler btn btn-light" type="submit" value="Submit">
-                <input class="bouttonFormAnnuler btn btn-light" type="reset" value="Reset">
-        {{ form_end(sortieCancelForm) }}
-        </div>
+                <div class="NameAnnuleSortie">
+                        <p>Nom de la sortie:  </p>
+                                {% for sortie in sorties %}
+                                <p class="recupAnnuSortie1" style="color : darkcyan"> {{ sortie.nom }} </p>
+                </div>
+                <div class="dateAnnuleSortie">
+                        <p>Date de la sortie: </p>
+
+                        <p class="recupAnnuSortie2" style="color : darkcyan" > {{ sortie.dateHeureDebut | date('d-m-Y') }}</p>
+                </div>
+                <div class="CampAnnuleSortie">
+                        <p>Campus: </p>
+                        <p class="recupAnnuSortie3" style="color : darkcyan"> {{ sortie.organisateur.campus.nom }}</p>
+                </div>
+                <div class="LieuAnnulSortie">
+                        <p>Lieu: </p>
+                        <p class="recupAnnuSortie4" style="color : darkcyan"> {{ sortie.lieu.rue }} {{ sortie.lieu.ville.nom }} {{ sortie.lieu.ville.codePostal}} </p>
+
+                        {% endfor %}
+                </div>
+                <div class="formAnnuleS">
+                {{ form_start(sortieCancelForm) }}
+                {{ form_widget(sortieCancelForm) }}
+                        <input class="bouttonFormAnnuler btn btn-light" type="submit" value="Submit">
+                        <input class="bouttonFormAnnuler btn btn-light" type="reset" value="Reset">
+                {{ form_end(sortieCancelForm) }}
+                </div>
+
+
         </div>
 
 

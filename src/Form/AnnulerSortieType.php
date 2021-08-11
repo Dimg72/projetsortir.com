@@ -23,3 +23,5 @@ class AnnulerSortieType extends AbstractType
         ]);
     }
 }
+
+//todo: AJOUTER LORSQUE FORMULAIRE INSCRIRE CREE LA FONCTION MODIF MOTIF ET ETAT !

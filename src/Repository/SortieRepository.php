@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Participant;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -36,7 +37,25 @@ class SortieRepository extends ServiceEntityRepository
     }
 
 
-
+    public function findIdAnnulSortie($id) {
+        $queryBuilder = $this->createQueryBuilder('s');
+        $queryBuilder->leftJoin('s.organisateur', 'o')
+            ->addSelect('o');
+        $queryBuilder->leftJoin('o.campus', 'c')
+            ->addSelect('c');
+        $queryBuilder->leftJoin('s.etat', 'e')
+            ->addSelect('e');
+        $queryBuilder->leftjoin('s.lieu', 'l')
+            ->addSelect('l');
+        $queryBuilder->leftjoin('l.ville', 'v')
+            ->addSelect('v');
+        $queryBuilder->andWhere('s.id = :idV')
+            ->setParameter('idV', $id);
+        $query = $queryBuilder->getQuery();
+        $query->setMaxResults(50);
+        $resultat = $query->getResult();
+        return $resultat;
+    }
 
     // /**
     //  * @return Sortie[] Returns an array of Sortie objects

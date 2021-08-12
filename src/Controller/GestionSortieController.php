@@ -88,29 +88,28 @@ class GestionSortieController extends AbstractController
                                    EntityManagerInterface $entityManager, SortieRepository $sortieRepository) : Response {
 
 
-        $dateDuJour = new \DateTime();
+            $dateDuJour = new \DateTime();
             $participant = $this->getUser();
-
-           // $sortie->getId($id);
 
             // Permet de récuperer l'id 2 : état Ouverte
             $etat = new Etat();
             $etat = $etatRepository->find(2);
-
-       if($sortie->getDateLimiteInscription() < $dateDuJour AND $sortie->getEtat()->getId() === $etat->getId() ) {
+       if($sortie->getDateLimiteInscription() < $dateDuJour AND $sortie->getEtat()->getId() === $etat->getId()) {
+           //
 
                 // inscription du participant dans la sortie
                 $sortie->addParticipant($participant);
-                dd($sortie);
                 $entityManager->persist($sortie);
                 $entityManager->flush();
 
-                return $this->render('main/home.html.twig');
+                $this->addFlash('sucess', 'Inscription à la sortie, validée');
+                return $this->redirectToRoute('main_home');
             }
-
-
-
-        }
+       else {
+                $this->addFlash('fail', 'Inscription à la sortie non valide : date ou état non valide');
+                return $this->redirectToRoute('main_home');
+       }
+    }
 
 
     /**
@@ -122,12 +121,18 @@ class GestionSortieController extends AbstractController
         $partipant = $this->getUser();
 
 
-        if($sortie->getDateHeureDebut() < $dateDuJour) {
+        if($sortie->getDateHeureDebut() > $dateDuJour) {
+
             $sortie->removeParticipant($partipant);
             $entityManager->persist($sortie);
             $entityManager->flush();
 
-            return $this->render('main/home.html.twig');
+            $this->addFlash('sucess', 'Desincription à la sortie, validée');
+            return $this->redirectToRoute('main_home');
+        }
+        else{
+            $this->addFlash('fail', 'Desincription à la sortie non valide, date passée');
+            return $this->redirectToRoute('main_home');
         }
     }
 

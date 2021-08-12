@@ -41,16 +41,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td> Cinéma </td>
-            <td> 10/08/2021 </td>
-            <td> 11/08/2021 </td>
-            <td> 3/8 </td>
-            <td> En cours </td>
-            <td> X </td>
-            <td> DimDim </td>
-            <td><a href="#">Afficher</a> - <a href="#">Se desister</a> </td>
-        </tr>
+        {% set i = 0 %}
         {% for sortie in sorties %}
             <tr>
                 <td>{{ sortie.nom }}</td>
@@ -58,18 +49,98 @@
                 <td>{{ sortie.dateLimiteInscription |format_datetime('short', 'short', locale='fr') }}</td>
                 <td>{{ sortie.participants|length}}/{{ sortie.nbInscriptionsMax }}</td>
                 <td>{{ sortie.etat.libelle }}</td>
-                <td> todo dans le controler </td>
-                <td>{{ sortie.organisateur.prenom|first }}.{{ sortie.organisateur.nom }}</td>
                 <td>
+                    {% if verifInsciption[i]== true %}
+                    X
+                    {% endif %}
+                </td>
+                <td><a href="#">{{ sortie.organisateur.prenom|first }}.{{ sortie.organisateur.nom }}</a></td>
+                <td>
+                    {#    si je suis orgnisateur    #}
+                    {% if sortie.organisateur == app.user %}
 
-                    {% if sortie.organisateur.email == app.user.email %}
-                        <a href="#">Afficher</a> - <a href="#">Modifier</a>
+                        {# si la sortie est en état  créé => visible que par le créateur avec bouton "modifier" + "publier" #}
+                        {% if sortie.etat.id == 2 %}
+                            <a href="#">Modifier</a> - <a href="#">Publier</a>
+
+                        {# si la sortie est en état ouverte  afficher le bouton "afficher" et "annuler"#}
+
+                        {% elseif sortie.etat.id == 1 %}
+                            <a href="#">Afficher</a> - <a href="#">Annuler</a>
+
+                        {# si la sortie est en état cloturée afficher le bouton "afficher" et "annuler" #}
+
+                        {% elseif sortie.etat.id == 3 %}
+                            <a href="#">Afficher</a> - <a href="#">Annuler</a>
+
+                        {# si la sortie est en état  Activité en cours afficher le bouton "afficher"  #}
+
+                        {% elseif sortie.etat.id == 4 %}
+                            <a href="#">Afficher</a>
+
+                        {# si la sortie est en état  Passée le bouton "afficher"  #}
+
+                        {% elseif sortie.etat.id == 5 %}
+                            <a href="#">Afficher</a>
+
+                        {% endif %}
+
                     {% else %}
-                        <a href="#">Afficher</a> - <a href="#">S'inscrire</a>
+                        {#  je verifie que la personne est inscite #}
+                        {% if verifInsciption[i]== true %}
+
+                            {# si la sortie est en état ouverte  afficher le bouton "afficher" et "Se désister"#}
+
+                            {% if sortie.etat.id == 1 %}
+                                <a href="#">Afficher</a> - <a href="#">Se désister</a>
+
+                            {# si la sortie est en état cloturée afficher le bouton "afficher" et "Se désister" #}
+
+                            {% elseif sortie.etat.id == 3 %}
+                                <a href="#">Afficher</a> - <a href="#">Se désister</a>
+
+                            {# si la sortie est en état  Activité en cours afficher le bouton "afficher"  #}
+
+                            {% elseif sortie.etat.id == 4 %}
+                                <a href="#">Afficher</a>
+
+                            {# si la sortie est en état  Passée le bouton "afficher"  #}
+
+                            {% elseif sortie.etat.id == 5 %}
+                                <a href="#">Afficher</a>
+
+                            {% endif %}
+
+                        {% else %}
+
+                            {# si la sortie est en état ouverte  afficher le bouton "afficher" et "S'inscrire"#}
+
+                            {% if sortie.etat.id == 1 %}
+                                <a href="#">Afficher</a> - <a href="#">S'inscrire</a>
+
+                            {# si la sortie est en état cloturée afficher le bouton "afficher" #}
+
+                            {% elseif sortie.etat.id == 3 %}
+                                <a href="#">Afficher</a>
+
+                            {# si la sortie est en état  Activité en cours afficher le bouton "afficher"  #}
+
+                            {% elseif sortie.etat.id == 4 %}
+                                <a href="#">Afficher</a>
+
+                            {# si la sortie est en état  Passée le bouton "afficher"  #}
+
+                            {% elseif sortie.etat.id == 5 %}
+                                <a href="#">Afficher</a>
+
+                            {% endif %}
+
+                        {% endif %}
+
                     {% endif %}
                 </td>
             </tr>
-
+            {% set i = i+1 %}
         {% endfor %}
           </tbody>
     </table>

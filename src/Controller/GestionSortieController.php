@@ -37,7 +37,7 @@ class GestionSortieController extends AbstractController
                                   SortieRepository $sortieRepository, EtatRepository $etatRepository) : Response {
 
 
-        $sortieCForm = $this->createForm(AnnulerSortieType::class, $sortieC);
+         $sortieCForm = $this->createForm(AnnulerSortieType::class, $sortieC);
 
          $sortieCForm->handleRequest($request);
 
@@ -48,8 +48,9 @@ class GestionSortieController extends AbstractController
          $etat = new Etat();
          $etat = $etatRepository->find(6);
 
+         $dateDuJour = new \DateTime();;
 
-          $dateDuJour = new Date();
+
          if($dateDuJour <= $sortieC->getDateHeureDebut()) {
              if($sortieCForm->isSubmitted() && $sortieCForm->isValid()) {
 
@@ -60,11 +61,17 @@ class GestionSortieController extends AbstractController
                  $entityManager->persist($sortieC);
                  $entityManager->flush();
 
+
                  $this->addFlash('sucess', 'Annulation de votre sortie, validée');
                  return $this->redirectToRoute('main_home');
              }
 
          }
+         elseif($dateDuJour >= $sortieC->getDateHeureDebut()) {
+             $this->addFlash('fail', 'Vous avez passé la date limite pour pouvoir annuler');
+             return $this->redirectToRoute('main_home');
+         }
+
 
             return $this->render('gestion_sortie/sortieannulee.html.twig', [ 'sorties' => $sortieId,
                 'sortieCancelForm' => $sortieCForm->createView()
@@ -84,20 +91,17 @@ class GestionSortieController extends AbstractController
         $dateDuJour = new \DateTime();
             $participant = $this->getUser();
 
-            $sortie->getId($id);
+           // $sortie->getId($id);
 
             // Permet de récuperer l'id 2 : état Ouverte
             $etat = new Etat();
             $etat = $etatRepository->find(2);
 
-
-
-
-
        if($sortie->getDateLimiteInscription() < $dateDuJour AND $sortie->getEtat()->getId() === $etat->getId() ) {
 
                 // inscription du participant dans la sortie
                 $sortie->addParticipant($participant);
+                dd($sortie);
                 $entityManager->persist($sortie);
                 $entityManager->flush();
 

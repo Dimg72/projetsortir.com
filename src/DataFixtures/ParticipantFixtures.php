@@ -29,6 +29,7 @@ class ParticipantFixtures extends Fixture implements DependentFixtureInterface
             $participant->setPassword($password);
             $participant->setTelephone($faker->unique->phoneNumber());
             $manager->persist($participant);
+            $this->addReference(Participant::class.$i,$participant);
         }
             $participantAdmin = new Participant();
             $participantAdmin->setNom("admin");

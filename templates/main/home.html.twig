@@ -60,27 +60,27 @@
                     {% if sortie.organisateur == app.user %}
 
                         {# si la sortie est en état  créé => visible que par le créateur avec bouton "modifier" + "publier" #}
-                        {% if sortie.etat.id == 2 %}
+                        {% if sortie.etat.libelle == "crée" %}
                             <a href="#">Modifier</a> - <a href="#">Publier</a>
 
                         {# si la sortie est en état ouverte  afficher le bouton "afficher" et "annuler"#}
 
-                        {% elseif sortie.etat.id == 1 %}
+                        {% elseif sortie.etat.libelle == "ouverte" %}
                             <a href="#">Afficher</a> - <a href="#">Annuler</a>
 
                         {# si la sortie est en état cloturée afficher le bouton "afficher" et "annuler" #}
 
-                        {% elseif sortie.etat.id == 3 %}
+                        {% elseif sortie.etat.libelle == "cloturée" %}
                             <a href="#">Afficher</a> - <a href="#">Annuler</a>
 
                         {# si la sortie est en état  Activité en cours afficher le bouton "afficher"  #}
 
-                        {% elseif sortie.etat.id == 4 %}
+                        {% elseif sortie.etat.libelle == "activité en cours" %}
                             <a href="#">Afficher</a>
 
                         {# si la sortie est en état  Passée le bouton "afficher"  #}
 
-                        {% elseif sortie.etat.id == 5 %}
+                        {% elseif sortie.etat.libelle == "passé" %}
                             <a href="#">Afficher</a>
 
                         {% endif %}
@@ -91,22 +91,22 @@
 
                             {# si la sortie est en état ouverte  afficher le bouton "afficher" et "Se désister"#}
 
-                            {% if sortie.etat.id == 1 %}
+                            {% if sortie.etat.libelle == "ouverte" %}
                                 <a href="#">Afficher</a> - <a href="#">Se désister</a>
 
                             {# si la sortie est en état cloturée afficher le bouton "afficher" et "Se désister" #}
 
-                            {% elseif sortie.etat.id == 3 %}
+                            {% elseif sortie.etat.libelle == "cloturée" %}
                                 <a href="#">Afficher</a> - <a href="#">Se désister</a>
 
                             {# si la sortie est en état  Activité en cours afficher le bouton "afficher"  #}
 
-                            {% elseif sortie.etat.id == 4 %}
+                            {% elseif sortie.etat.libelle == "activité en cours"%}
                                 <a href="#">Afficher</a>
 
                             {# si la sortie est en état  Passée le bouton "afficher"  #}
 
-                            {% elseif sortie.etat.id == 5 %}
+                            {% elseif sortie.etat.libelle == "passée" %}
                                 <a href="#">Afficher</a>
 
                             {% endif %}
@@ -115,22 +115,22 @@
 
                             {# si la sortie est en état ouverte  afficher le bouton "afficher" et "S'inscrire"#}
 
-                            {% if sortie.etat.id == 1 %}
+                            {% if sortie.etat.libelle == "ouverte" %}
                                 <a href="#">Afficher</a> - <a href="#">S'inscrire</a>
 
                             {# si la sortie est en état cloturée afficher le bouton "afficher" #}
 
-                            {% elseif sortie.etat.id == 3 %}
+                            {% elseif sortie.etat.libelle == "cloturée" %}
                                 <a href="#">Afficher</a>
 
                             {# si la sortie est en état  Activité en cours afficher le bouton "afficher"  #}
 
-                            {% elseif sortie.etat.id == 4 %}
+                            {% elseif sortie.etat.libelle == "activité en cours" %}
                                 <a href="#">Afficher</a>
 
                             {# si la sortie est en état  Passée le bouton "afficher"  #}
 
-                            {% elseif sortie.etat.id == 5 %}
+                            {% elseif sortie.etat.libelle == "passée" %}
                                 <a href="#">Afficher</a>
 
                             {% endif %}

@@ -16,8 +16,8 @@ class LieuFixtures extends Fixture implements DependentFixtureInterface
         {
             $lieu = new Lieu();
             $lieu->setNom($faker->unique()->company());
-            $lieu->setLongitude($faker->unique()->longitude());
-            $lieu->setLatitude($faker->unique()->latitute());
+            $lieu->setLongitude($faker->unique()->longitude(-90,90));
+            $lieu->setLatitude($faker->unique()->latitute(-180,180));
             $lieu->setVille($this->getReference("Ville".mt_rand(1,20)));
             $lieu->setRue($faker->unique()->address());
 

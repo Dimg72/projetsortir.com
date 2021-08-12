@@ -3,21 +3,60 @@
 namespace App\Controller;
 
 use App\Entity\Participant;
+use App\Form\RegistrationFormType;
+use App\Form\UpdateParticipantProfileType;
 use App\Repository\UtilisateurRepository;
+use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UtilisateurController extends AbstractController
 {
     /**
      * @Route("/participants/details/{id}", name="participants_details")
      */
-    public function details(Participant $user): Response
+    public function details(Participant $participant, UserPasswordEncoderInterface $passwordEncoder, Request $request): Response
     {
-        return $this->render('utilisateur/detailsParticipant.html.twig',[
-            "utilisateur" => $user
-        ]);
+        $idUserAuth = $this->getUser()->getId();
+//todo : faire une requête querybuilder sur les participants pour optimiser les requêtes
+        if($idUserAuth === $participant->getId()) {
+            $form = $this->createForm(UpdateParticipantProfileType::class, $participant);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid())
+            {
+                // encode the plain password
+                if ($form->get('plainPassword')->getData())
+                    {
+                        $participant->setPassword(
+                            $passwordEncoder->encodePassword(
+                                $participant,
+                                $form->get('plainPassword')->getData()
+                            )
+                        );
+                    }
+                    $entityManager = $this->getDoctrine()->getManager();
+                    $entityManager->persist($participant);
+                    $entityManager->flush();
+
+                return $this->redirectToRoute('main_home');
+            }
+
+            return $this->render('utilisateur/updateProfile.html.twig', [
+                "utilisateur" => $participant,
+                "updateForm" => $form->createView(),
+            ]);
+
+
+        }else {
+
+            return $this->render('utilisateur/detailsParticipant.html.twig', [
+                'participant' => $participant
+            ]);
+        }
+
     }
 
     /**
@@ -25,10 +64,10 @@ class UtilisateurController extends AbstractController
      */
     public function liste(UtilisateurRepository $utilisateurRepository): Response
     {
-        $users = $utilisateurRepository->findAll();
+        $participants = $utilisateurRepository->findAll();
 
         return $this->render('utilisateur/listeParticipants.html.twig', [
-            "utilisateurs" => $users
+            "utilisateurs" => $participants
         ]);
     }
 }

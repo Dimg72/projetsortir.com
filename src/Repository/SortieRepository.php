@@ -7,6 +7,7 @@ use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
+use function Symfony\Component\String\s;
 
 /**
  * @method Sortie|null find($id, $lockMode = null, $lockVersion = null)
@@ -24,9 +25,46 @@ class SortieRepository extends ServiceEntityRepository
     /**
      * @return Sortie[]
      */
-    public function findSorties(){
+    public function findSorties($campus, $motCle, $dateDebut, $dateLimiteInscription, $checkBoxs, $user){
+
 
         $queryBuilder =$this->createQueryBuilder('s');
+        $queryBuilder->leftJoin('s.participants','p')->addSelect('p');
+        $queryBuilder->andWhere('s.campus = :campus')
+        ->setParameter('campus', $campus);
+        $queryBuilder->andWhere('s.nom LIKE :motCle')
+            ->setParameter('motCle', "%".$motCle."%");
+        if($dateDebut != null)
+        {
+            $queryBuilder->andWhere('s.dateHeureDebut > :dateDebut')
+                ->setParameter('dateDebut',$dateDebut);
+        }
+        if($dateLimiteInscription != null)
+        {
+            $queryBuilder->andWhere('s.dateLimiteInscription > :dateLimiteInscription')
+                ->setParameter('dateLimiteInscription',$dateLimiteInscription);
+        }
+
+        if(in_array("organisateur",$checkBoxs))
+        {
+            $queryBuilder->andWhere('s.organisateur = :userID')
+                ->setParameter('userID', $user->getId());
+        }
+        if(in_array("inscrit",$checkBoxs)){
+
+            $queryBuilder->andWhere(':user MEMBER OF s.participants')
+                ->setParameter('user', $user);
+        }
+        if(in_array("non inscrit",$checkBoxs)) {
+            $queryBuilder->andWhere(':user NOT MEMBER OF s.participants')
+                ->setParameter('user', $user);
+
+        }
+
+        if(in_array("historique",$checkBoxs)) {
+            $queryBuilder->andWhere('s.etat = :passee')
+                ->setParameter('passee', 5);
+        }
 
         $query = $queryBuilder->getQuery();
         $query->setMaxResults(30);

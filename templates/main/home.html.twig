@@ -57,15 +57,11 @@
                 <td>{{ sortie.dateLimiteInscription |format_datetime('short', 'short', locale='fr') }}</td>
                 <td>{{ sortie.participants|length}}/{{ sortie.nbInscriptionsMax }}</td>
                 <td>{{ sortie.etat.libelle }}</td>
-                <td>
-                    {% if verifInsciption[i]== true %}
-                    X
-                    {% endif %}
-                </td>
+                <td>{{ app.user in sortie.participants ?"x":"" }}</td>
                 <td><a href="#">{{ sortie.organisateur.prenom|first }}.{{ sortie.organisateur.nom }}</a></td>
                 <td>
                     {#    si je suis orgnisateur    #}
-                    {% if sortie.organisateur == app.user %}
+                    {% if sortie.organisateur.id == app.user.id %}
 
                         {# si la sortie est en état  créé => visible que par le créateur avec bouton "modifier" + "publier" #}
                         {% if sortie.etat.libelle == "crée" %}
@@ -94,8 +90,9 @@
                         {% endif %}
 
                     {% else %}
+
                         {#  je verifie que la personne est inscite #}
-                        {% if verifInsciption[i]== true %}
+                        {% if  app.user in sortie.participants %}
 
                             {# si la sortie est en état ouverte  afficher le bouton "afficher" et "Se désister"#}
 

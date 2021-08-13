@@ -29,15 +29,17 @@ class FilterActivityType extends AbstractType
             ])
             ->add('DateStart', DateType::class, [
                 'html5' => true,
-                'widget' => 'single_text'
+                'widget' => 'single_text',
+                'required' => false
             ])
             ->add('DateEnd',DateType::class, [
                 'html5' => true,
-                'widget' => 'single_text'
+                'widget' => 'single_text',
+                'required' => false
             ])
             ->add('Filter', ChoiceType::class,[
                 'choices'=>[
-                    'Sorties dont je suis l\'organisateur/trice' => 'Organisateur',
+                    'Sorties dont je suis l\'organisateur/trice' => 'organisateur',
                     'Sorties auxquelles je suis incrit/e' => 'inscrit',
                     'Sorties auxquelles je ne suis pas incrit/e' => 'non inscrit',
                     'Sorties passés' => 'historique'

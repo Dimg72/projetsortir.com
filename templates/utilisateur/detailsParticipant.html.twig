@@ -1,15 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ utilisateur.nom ~ utilisateur.prenom}} | {{ parent() }}{% endblock %}
+{% block title %}{{ participant.nom ~ participant.prenom}} | {{ parent() }}{% endblock %}
 
 {% block body %}
-    <h2>{{utilisateur.prenom}}</h2>
-    <label for="nom">Nom :</label>
-        <input type="text" readonly value="{{ utilisateur.telephone }}" name="nom">
-    <label for="prenom">Prènom :</label>
-        <input type="text" readonly value="{{ utilisateur.telephone }}" name="prenom">
-    <label for="tel">Numéro de téléphone :</label>
-        <input type="text" readonly value="{{ utilisateur.telephone }}" name="tel">
-    <label>Adresse mail : </label>
-        <input type="email" readonly value="{{ utilisateur.email }}" name="mail">
+    <div class="container">
+        <h2 class="h1-romain">{{participant.prenom}}{{ app.user.id }}</h2>
+        <div class="profile">
+            <div class="profile-image">
+                <img src="#" title="img-profile2~{{ participant.nom }}">
+            </div>
+            <div class="profile-infos">
+                <p class="info">Nom : <span class="info-span">{{ participant.nom }}</span></p>
+                <p class="info">Prènom: <span class="info-span">{{ participant.prenom }}</span></p>
+                <p class="info">Adresse email: <span class="info-span">{{ participant.mail }}</span></p>
+                <p class="info">Numéro de téléphone: <span class="info-span">{{ participant.telephone }}</span></p>
+                <p class="info">Campus:  <span class="info-span">{{ participant.campus }}</span></p>
+            </div>
+        </div>
+{# todo : revoir l'affichage des infos #}
+    </div>
 {% endblock %}

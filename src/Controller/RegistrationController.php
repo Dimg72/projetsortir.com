@@ -20,7 +20,7 @@ class RegistrationController extends AbstractController
         $user = new Participant();
         $user->setActif(true);
         $user->setAdministrateur(false);
-        $user->setRoles(["ROLE_ADMIN"]);
+        $user->setRoles(["ROLE_USER"]);
 
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -34,9 +34,10 @@ class RegistrationController extends AbstractController
                 )
             );
 
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
+            dd($user);
+//            $entityManager = $this->getDoctrine()->getManager();
+//            $entityManager->persist($user);
+//            $entityManager->flush();
             // do anything else you need here, like send an email
 
             return $this->redirectToRoute('main_home');

@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="container">
-        <h2 class="h1-romain">{{participant.prenom}}{{ app.user.id }}</h2>
+        <h2 class="h1-romain">{{participant.prenom}}</h2>
         <div class="row">
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 profile-image">
                 <img class="img-utilisateur" src="{{ asset('Images/Sortir .com.png') }}" title="img-profile2~{{ participant.nom }}">
@@ -16,9 +16,9 @@
                 <p class="info">Adresse email: </p><p class="info-span">{{ participant.email }}</p>
                 <p class="info">Numéro de téléphone: </p><p class="info-span">{{ participant.telephone }}</p>
                 <p class="info">Campus:  </p><p class="info-span">{{ participant.campus.nom }}</p>
+                    <p>idCo : {{ app.user.id }}</p>
                 </div>
             </div>
         </div>
-{# todo : revoir l'affichage des infos #}
     </div>
 {% endblock %}

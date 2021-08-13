@@ -53,12 +53,10 @@ J'UTILISE TA PAGE J'AI QUE QUELQUES LIGNES BISOUS
     margin-bottom: 60px;
 }
 
-
-
 .profile-image{
     position: relative;
     text-align: center;
-    display: table-column;
+    display: flex;
     vertical-align: center;
     margin-bottom: 40px;
 }
@@ -66,9 +64,13 @@ J'UTILISE TA PAGE J'AI QUE QUELQUES LIGNES BISOUS
 .img-utilisateur{
     width: 200px;
     height: 200px;
+    margin: auto;
 }
 
-.profile-infos{
+.img-utilisateur-uptdate{
+    width: 250px;
+    height: 250px;
+    margin: auto;
 }
 
 .info{
@@ -79,6 +81,8 @@ J'UTILISE TA PAGE J'AI QUE QUELQUES LIGNES BISOUS
 .info-span{
     text-align: right;
     position: relative;
+    padding-bottom: 10px;
+    border-bottom: #000000 solid 1px;
 }
 
 

@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ utilisateur.nom ~ utilisateur.prenom}} | {{ parent() }}{% endblock %}
+{% block title %}{{ utilisateur.nom ~" "~ utilisateur.prenom}} | {{ parent() }}{% endblock %}
 
 {% block body %}
     <div class="container">
         <h2 class="h1-romain">{{utilisateur.prenom}}{{ app.user.id }}</h2>
         <div class="row">
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 profile-image">
-                <img class="img-utilisateur" src="{{ asset('Images/Sortir .com.png') }}" title="img-profile2~{{ utilisateur.nom }}">
+                <img class="img-utilisateur-uptdate" src="{{ asset('Images/Sortir .com.png') }}" title="img-profile2~{{ utilisateur.nom }}">
             </div>
 
             <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">

@@ -50,6 +50,35 @@ J'UTILISE TA PAGE J'AI QUE QUELQUES LIGNES BISOUS
 
 .h1-romain{
     text-align: center;
+    margin-bottom: 60px;
+}
+
+
+
+.profile-image{
+    position: relative;
+    text-align: center;
+    display: table-column;
+    vertical-align: center;
+    margin-bottom: 40px;
+}
+
+.img-utilisateur{
+    width: 200px;
+    height: 200px;
+}
+
+.profile-infos{
+}
+
+.info{
+    margin-bottom: 20px;
+    position: absolute;
+}
+
+.info-span{
+    text-align: right;
+    position: relative;
 }
 
 

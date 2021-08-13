@@ -15,32 +15,32 @@ class EtatFixtures extends Fixture
         // $product = new Product();
 
         $etat = new Etat();
-        $etat->setLibelle("crée");
+        $etat->setLibelle("Créée");
         $manager->persist($etat);
         $this->addReference(Etat::class.'1',$etat);
 
         $etat1 = new Etat();
-        $etat1->setLibelle("ouverte");
+        $etat1->setLibelle("Ouverte");
         $manager->persist($etat1);
         $this->addReference(Etat::class.'2',$etat1);
 
         $etat2 = new Etat();
-        $etat2->setLibelle("cloturée");
+        $etat2->setLibelle("Cloturée");
         $manager->persist($etat2);
         $this->addReference(Etat::class.'3',$etat2);
 
         $etat3 = new Etat();
-        $etat3->setLibelle("activité en cours");
+        $etat3->setLibelle("Activité en cours");
         $manager->persist($etat3);
         $this->addReference(Etat::class.'4',$etat3);
 
         $etat4 = new Etat();
-        $etat4->setLibelle("passée");
+        $etat4->setLibelle("Passée");
         $manager->persist($etat4);
         $this->addReference(Etat::class.'5',$etat4);
 
         $etat5 = new Etat();
-        $etat5->setLibelle("annulée");
+        $etat5->setLibelle("Annulée");
         $manager->persist($etat5);
         $this->addReference(Etat::class.'6',$etat5);
 

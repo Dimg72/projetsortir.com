@@ -12,16 +12,17 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use function Sodium\add;
 
 class UtilisateurController extends AbstractController
 {
     /**
      * @Route("/participants/details/{id}", name="participants_details")
      */
-    public function details(Participant $participant, UserPasswordEncoderInterface $passwordEncoder, Request $request): Response
+    public function details($id, UserPasswordEncoderInterface $passwordEncoder, Request $request, UtilisateurRepository $utilisateurRepository): Response
     {
+        $participant = $utilisateurRepository->findOneBySomeField($id);
         $idUserAuth = $this->getUser()->getId();
-//todo : faire une requête querybuilder sur les participants pour optimiser les requêtes
         if($idUserAuth === $participant->getId()) {
             $form = $this->createForm(UpdateParticipantProfileType::class, $participant);
             $form->handleRequest($request);
@@ -51,9 +52,8 @@ class UtilisateurController extends AbstractController
 
 
         }else {
-
             return $this->render('utilisateur/detailsParticipant.html.twig', [
-                'participant' => $participant
+                'participant' => $participant,
             ]);
         }
 

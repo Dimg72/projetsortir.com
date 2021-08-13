@@ -1,20 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ participant.nom ~ participant.prenom}} | {{ parent() }}{% endblock %}
+{% block title %}{{ participant.nom ~" "~ participant.prenom}} | {{ parent() }}{% endblock %}
 
 {% block body %}
     <div class="container">
         <h2 class="h1-romain">{{participant.prenom}}{{ app.user.id }}</h2>
-        <div class="profile">
-            <div class="profile-image">
-                <img src="#" title="img-profile2~{{ participant.nom }}">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 profile-image">
+                <img class="img-utilisateur" src="{{ asset('Images/Sortir .com.png') }}" title="img-profile2~{{ participant.nom }}">
             </div>
-            <div class="profile-infos">
-                <p class="info">Nom : <span class="info-span">{{ participant.nom }}</span></p>
-                <p class="info">Prènom: <span class="info-span">{{ participant.prenom }}</span></p>
-                <p class="info">Adresse email: <span class="info-span">{{ participant.mail }}</span></p>
-                <p class="info">Numéro de téléphone: <span class="info-span">{{ participant.telephone }}</span></p>
-                <p class="info">Campus:  <span class="info-span">{{ participant.campus }}</span></p>
+            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 profile-infos">
+                <div>
+                <p class="info">Nom : </p><p class="info-span">{{ participant.nom }}</p>
+                <p class="info">Prènom: </p><p class="info-span">{{ participant.prenom }}</p>
+                <p class="info">Adresse email: </p><p class="info-span">{{ participant.email }}</p>
+                <p class="info">Numéro de téléphone: </p><p class="info-span">{{ participant.telephone }}</p>
+                <p class="info">Campus:  </p><p class="info-span">{{ participant.campus.nom }}</p>
+                </div>
             </div>
         </div>
 {# todo : revoir l'affichage des infos #}

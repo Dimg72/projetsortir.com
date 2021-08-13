@@ -53,15 +53,16 @@ class UtilisateurRepository extends ServiceEntityRepository implements PasswordU
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?ParticipantParticipant
+
+    public function findOneBySomeField($value): ?Participant
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
+            ->leftJoin('p.campus', 'c')
+            ->addSelect('c')
+            ->andWhere('p.id = :val')
             ->setParameter('val', $value)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
     }
-    */
+
 }

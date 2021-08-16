@@ -25,7 +25,7 @@ security:
             logout:
                 path: app_logout
                 # where to redirect after logout
-                # target: app_any_route
+                target: app_login
 
             remember_me:
                 secret: '%kernel.secret%'
@@ -40,5 +40,7 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/$, roles: ROLE_USER }
+        - { path: ^/gestion, roles: ROLE_USER }
+        - { path: ^/participants, roles: ROLE_USER }

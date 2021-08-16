@@ -5,9 +5,25 @@
 {% block body %}
     <div class="container">
         <h2 class="h1-romain">{{utilisateur.prenom}}{{ app.user.id }}</h2>
+        {# read and display all flash messages #}
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="flash-{{ label }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
         <div class="row">
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 profile-image">
-                <img class="img-utilisateur-uptdate" src="{{ asset('Images/Sortir .com.png') }}" title="img-profile2~{{ utilisateur.nom }}">
+                {% if utilisateur.profilePhoto %}
+                    <img class="img-utilisateur" src="{{ asset('ProfilePhotos/'~utilisateur.profilePhoto.photoProfileTag) }}" title="Image de profil de "~{{ utilisateur.nom ~" "~ utilisateur.prenom }}">
+                    <button class="btn btn-danger btn-delete-image">
+                        <a class="nounder-link" href="{{ path('participants_delete_img', {'id': utilisateur.id, 'name': utilisateur.profilePhoto.photoProfileTag}) }}">Supprimer la photo de profil</a>
+                    </button>
+                    {# todo: revoir le css du bouton de suppression de l'image de profil #}
+                {% else %}
+                    <img class="img-utilisateur" src="{{ asset('Images/imgProfileDefault.png') }}" title="Image de profil de "~{{ utilisateur.nom ~" "~ utilisateur.prenom }}>
+                {% endif %}
             </div>
 
             <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">

@@ -8,9 +8,13 @@
             <ul class="navbar-nav">
                 <li class="nav-item"><a class="nav-link"  href="#" title="City">Ville</a></li>
                 <li class="nav-item"><a class="nav-link"  href="#" title="Campus">Campus</a></li>
-                <li class="nav-item"><a class="nav-link"  href="{{ path('main_home')}}" title="Home">Accueil</a></li>
-                <li class="nav-item"><a class="nav-link"  href="#" title="My profile">Mon profil</a></li>
+                {% if app.user %}
+                <li class="nav-item"><a class="nav-link"  href="{{ path('participants_details', {'id': app.user.id}) }}" title="My profile">Mon profil</a></li>
                 <li class="nav-item"><a class="nav-link"  href="{{ path('app_logout') }}" title="logOut">Se déconnecter </a></li>
+                {% endif %}
+                {% if is_granted('ROLE_ADMIN')%}
+                    <li class="nav-item"><a class="nav-link" href="{{ path('app_register') }}">Enregistrer un nouveau participant</a></li>
+                {% endif %}
             </ul>
         </div>
     </nav>

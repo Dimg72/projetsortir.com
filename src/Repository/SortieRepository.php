@@ -32,8 +32,11 @@ class SortieRepository extends ServiceEntityRepository
         $queryBuilder->leftJoin('s.participants','p')->addSelect('p');
         $queryBuilder->andWhere('s.campus = :campus')
         ->setParameter('campus', $campus);
-        $queryBuilder->andWhere('s.nom LIKE :motCle')
-            ->setParameter('motCle', "%".$motCle."%");
+        if (!empty($motCle))
+        {
+            $queryBuilder->andWhere('s.nom LIKE :motCle')
+                ->setParameter('motCle', "%".$motCle."%");
+        }
         if($dateDebut != null)
         {
             $queryBuilder->andWhere('s.dateHeureDebut > :dateDebut')

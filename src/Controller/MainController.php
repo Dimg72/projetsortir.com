@@ -2,15 +2,14 @@
 
 namespace App\Controller;
 
-use App\Entity\Sortie;
+
 use App\Form\FilterActivityType;
 use App\Repository\SortieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
+
 
 class MainController extends AbstractController
 {
@@ -20,11 +19,14 @@ class MainController extends AbstractController
     public function home(SortieRepository $sortieRepository, Request $request): Response
     {
         $user = $this->getUser();
+
+        // $filtre = new Filtre()
         $filterActivityForm = $this->createForm(FilterActivityType::class);
+       // $filterActivityForm = $this->createForm(FilterActivityType::class, $filtre);
 
         $filterActivityForm->handleRequest($request);
 
-        //todo: Traiter le formulaire du filtre page d'acceuil
+        //Traiter le formulaire du filtre page d'acceuil
         if ($filterActivityForm->isSubmitted()) {
             $campus = $filterActivityForm['Campus']->getData()->getId();
             $motCle = $filterActivityForm['Search']->getData();
@@ -47,6 +49,7 @@ class MainController extends AbstractController
             ]);
         }
         $sorties = $sortieRepository->findAll();
+        //$sorties = $sortieRepository->findSorties($filtre, $user);
 
 
         return $this->render('main/home.html.twig', [
@@ -55,6 +58,14 @@ class MainController extends AbstractController
 
             ]);
 
+    }
+
+    /**
+     * @Route ("/create", name="main_create")
+     */
+    public function create():Response
+    {
+        return $this->render('main/create.html.twig');
     }
 
 

@@ -1,1 +1,18 @@
 {% extends 'base.html.twig' %}
+
+{# {% form_theme FilterActivityForm 'bootstrap_4_layout.html.twig' %} #}
+
+{% block title %}Creer une sortie | {{ parent() }}{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        {{ form_start(createSortieForm) }}
+
+        {{ form_row(createSortieForm.nom) }}
+
+        {{ form_end(createSortieForm) }}
+
+    </div>
+
+{% endblock %}

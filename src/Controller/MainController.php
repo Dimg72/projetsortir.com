@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 
+use App\Form\CreateSortieType;
 use App\Form\FilterActivityType;
 use App\Repository\SortieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -63,9 +64,14 @@ class MainController extends AbstractController
     /**
      * @Route ("/create", name="main_create")
      */
-    public function create():Response
+    public function create(Request $request):Response
     {
-        return $this->render('main/create.html.twig');
+        $createSortieForm = $this->createForm(CreateSortieType::class);
+        $createSortieForm->handleRequest($request);
+
+        return $this->render('main/create.html.twig',[
+            'createSortieForm' => $createSortieForm->createView()
+        ]);
     }
 
 

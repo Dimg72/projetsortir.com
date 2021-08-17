@@ -70,7 +70,7 @@
                         {# si la sortie est en état ouverte  afficher le bouton "afficher" et "annuler"#}
 
                         {% elseif sortie.etat.libelle == "ouverte" %}
-                            <a href="#">Afficher</a> - <a href="#">Annuler</a>
+                            <a href="#">Afficher</a> - <a href="{{ path('gestion_sortie/annuler', {'id': sortie.id}) }}">Annuler</a>
 
                         {# si la sortie est en état cloturée afficher le bouton "afficher" et "annuler" #}
 
@@ -97,7 +97,7 @@
                             {# si la sortie est en état ouverte  afficher le bouton "afficher" et "Se désister"#}
 
                             {% if sortie.etat.libelle == "ouverte" %}
-                                <a href="#">Afficher</a> - <a href="#">Se désister</a>
+                                <a href="#">Afficher</a> - <a href="{{ path('gestion_sortie/desister', {'id': sortie.id }) }}">Se désister</a>
 
                             {# si la sortie est en état cloturée afficher le bouton "afficher" et "Se désister" #}
 
@@ -121,7 +121,7 @@
                             {# si la sortie est en état ouverte  afficher le bouton "afficher" et "S'inscrire"#}
 
                             {% if sortie.etat.libelle == "ouverte" %}
-                                <a href="#">Afficher</a> - <a href="#">S'inscrire</a>
+                                <a href="#">Afficher</a> - <a href="{{ path('gestion_sortie/sinscrire', {'id': sortie.id}) }}">S'inscrire</a>
 
                             {# si la sortie est en état cloturée afficher le bouton "afficher" #}
 

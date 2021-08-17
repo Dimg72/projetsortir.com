@@ -36,21 +36,23 @@ class GestionSortieController extends AbstractController
     public function annulerSortie(Sortie $sortieC, Request $request, EntityManagerInterface $entityManager,
                                   SortieRepository $sortieRepository, EtatRepository $etatRepository) : Response {
 
-
+        // Formulaire pour l'envoi du motif en cas d'annulation
          $sortieCForm = $this->createForm(AnnulerSortieType::class, $sortieC);
-
          $sortieCForm->handleRequest($request);
 
+         // requête sql récupération des valeurs en fonction de l'id de la sortie et de l'utilisateur.
+        // Pour afficher les informations sur la page.
          $sortieId = $sortieRepository->findIdAnnulSortie($sortieC->getId());
 
 
          // Permet de récuperer l'id 6 : état annulée
          $etat = new Etat();
-         $etat = $etatRepository->find(6);
+         // Etat 6 : Annulée
+         $etat = $etatRepository->find(12);
 
-         $dateDuJour = new \DateTime();;
+         $dateDuJour = new \DateTime();
 
-
+            // si la date du jour est inférieur à celle de la date de début de la sortie
          if($dateDuJour <= $sortieC->getDateHeureDebut()) {
              if($sortieCForm->isSubmitted() && $sortieCForm->isValid()) {
 
@@ -67,35 +69,38 @@ class GestionSortieController extends AbstractController
              }
 
          }
-         elseif($dateDuJour >= $sortieC->getDateHeureDebut()) {
-             $this->addFlash('fail', 'Vous avez passé la date limite pour pouvoir annuler');
-             return $this->redirectToRoute('main_home');
-         }
+         // Si date de début de sortie est dépassé, envoie de message d'erreur d'annulation
+//         elseif($dateDuJour >= $sortieC->getDateHeureDebut()) {
+//             $this->addFlash('fail', 'Vous avez passé la date limite pour pouvoir annuler');
+//             return $this->redirectToRoute('main_home');
+//         }
 
 
             return $this->render('gestion_sortie/sortieannulee.html.twig', [ 'sorties' => $sortieId,
                 'sortieCancelForm' => $sortieCForm->createView()
-
-
         ]);
     }
 
 
     /**
-     * @Route("/gestion/inscriresortie/{id}", name="gestion_sortie/inscrire")
+     * @Route("/gestion/inscriresortie/{id}", name="gestion_sortie/sinscrire")
      */
-    public function inscrireSortie($id, Sortie $sortie, EtatRepository $etatRepository,
+    public function inscrireSortie(Sortie $sortie, EtatRepository $etatRepository,
                                    EntityManagerInterface $entityManager, SortieRepository $sortieRepository) : Response {
 
 
             $dateDuJour = new \DateTime();
+            //  informations de l'utilisateur.
             $participant = $this->getUser();
 
             // Permet de récuperer l'id 2 : état Ouverte
             $etat = new Etat();
-            $etat = $etatRepository->find(2);
-       if($sortie->getDateLimiteInscription() < $dateDuJour AND $sortie->getEtat()->getId() === $etat->getId()) {
-           //
+            $etat = $etatRepository->find(8)->getLibelle();
+
+
+            // Si la date d'inscription est supérieur à la date du jours et que l'état de la sortie est "ouverte"
+       if($sortie->getDateLimiteInscription() > $dateDuJour AND $sortie->getEtat()->getLibelle() === $etat) {
+
 
                 // inscription du participant dans la sortie
                 $sortie->addParticipant($participant);
@@ -118,11 +123,13 @@ class GestionSortieController extends AbstractController
     public function desisterSortie(Sortie $sortie, EntityManagerInterface $entityManager) : Response {
         $dateDuJour = new \DateTime();
 
+        // lecture des informations de l'utilisateur
         $partipant = $this->getUser();
 
 
         if($sortie->getDateHeureDebut() > $dateDuJour) {
 
+            // suppression de l'inscription de l'utilisateur à la sortie
             $sortie->removeParticipant($partipant);
             $entityManager->persist($sortie);
             $entityManager->flush();
@@ -135,6 +142,8 @@ class GestionSortieController extends AbstractController
             return $this->redirectToRoute('main_home');
         }
     }
+
+
 
 
 }

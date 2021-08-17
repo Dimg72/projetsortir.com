@@ -3,9 +3,13 @@
 namespace App\Controller;
 
 
+use App\Entity\Sortie;
 use App\Form\CreateSortieType;
 use App\Form\FilterActivityType;
+use App\Repository\LieuRepository;
 use App\Repository\SortieRepository;
+use App\Repository\UtilisateurRepository;
+use App\Repository\VilleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -64,13 +68,20 @@ class MainController extends AbstractController
     /**
      * @Route ("/create", name="main_create")
      */
-    public function create(Request $request):Response
+    public function create(UtilisateurRepository $utilisateurRepository, Request $request, LieuRepository $lieuRepository):Response
     {
+
+        $sortie = new Sortie();
+        $user = $utilisateurRepository->find($this->getUser()->getId());
+        $sortie->setCampus($user->getCampus());
+        $lieux = $lieuRepository->findAll();
+
         $createSortieForm = $this->createForm(CreateSortieType::class);
         $createSortieForm->handleRequest($request);
 
         return $this->render('main/create.html.twig',[
-            'createSortieForm' => $createSortieForm->createView()
+            'createSortieForm' => $createSortieForm->createView(),
+            'lieux'=> $lieux,
         ]);
     }
 

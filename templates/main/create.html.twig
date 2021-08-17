@@ -1,8 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{# {% form_theme FilterActivityForm 'bootstrap_4_layout.html.twig' %} #}
+{% form_theme createSortieForm 'bootstrap_4_layout.html.twig' %}
 
 {% block title %}Creer une sortie | {{ parent() }}{% endblock %}
+
+{% block javascripts %}
+<script type="text/javascript" src="{{ asset('JS/create.js') }}"></script>
+{% endblock %}
 
 {% block body %}
 
@@ -10,8 +14,39 @@
         {{ form_start(createSortieForm) }}
 
         {{ form_row(createSortieForm.nom) }}
+        {{ form_row(createSortieForm.dateHeureDebut) }}
+        {{ form_row(createSortieForm.dateLimiteInscription) }}
+        {{ form_row(createSortieForm.nbInscriptionsMax)}}
+        {{ form_row(createSortieForm.duree) }}
+        {{ form_row(createSortieForm.infosSortie) }}
+        {{ form_row(createSortieForm.campus,{ 'attr': {'readonly':'foo', 'value' :  app.user.campus.nom }}) }}
+        {{ form_row(createSortieForm.ville) }}
+        {{ form_row(createSortieForm.lieu) }}
 
-        {{ form_end(createSortieForm) }}
+        Lieu
+        <select name="lieu" id="lieu">
+            {% for lieu in lieux %}
+                {% set lieu_json =
+                    {
+                    ville:lieu.ville.nom,
+                    rue:lieu.rue,
+                    codePostale:lieu.ville.codePostal,
+                    longitude:lieu.longitude,
+                    latitude:lieu.latitude
+                    }
+                %}
+                <option data-lieu="{{ lieu_json | json_encode() }}" value="{{ lieu.nom }}">{{ lieu.nom }}</option>
+            {% endfor %}
+        </select>
+
+        <div>Ville : <span id="ville_js_sortie"></span> </div>
+        <div>Rue : <span id="rue_js_sortie"></span> </div>
+        <div>Code Postale : <span id="code_js_sortie"></span> </div>
+        <div>Longitude : <span id="longitude_js_sortie"></span> </div>
+        <div>Latitude : <span id="latitude_js_sortie"></span> </div>
+
+
+
 
     </div>
 

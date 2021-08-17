@@ -1,10 +1,12 @@
 {% extends 'base.html.twig' %}
 
+{% form_theme updateForm 'bootstrap_4_layout.html.twig' %}
+
 {% block title %}{{ utilisateur.nom ~" "~ utilisateur.prenom}} | {{ parent() }}{% endblock %}
 
 {% block body %}
     <div class="container">
-        <h2 class="h1-romain">{{utilisateur.prenom}}{{ app.user.id }}</h2>
+        <h2 class="h1-romain">{{utilisateur.prenom}}</h2>
         {# read and display all flash messages #}
         {% for label, messages in app.flashes %}
             {% for message in messages %}
@@ -14,12 +16,15 @@
             {% endfor %}
         {% endfor %}
         <div class="row">
-            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 profile-image">
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 profile-image align-items-center">
                 {% if utilisateur.profilePhoto %}
-                    <img class="img-utilisateur" src="{{ asset('ProfilePhotos/'~utilisateur.profilePhoto.photoProfileTag) }}" title="Image de profil de "~{{ utilisateur.nom ~" "~ utilisateur.prenom }}">
-                    <button class="btn btn-danger btn-delete-image">
-                        <a class="nounder-link" href="{{ path('participants_delete_img', {'id': utilisateur.id, 'name': utilisateur.profilePhoto.photoProfileTag}) }}">Supprimer la photo de profil</a>
-                    </button>
+                    <div>
+                        <img class="img-utilisateur mb-4" src="{{ asset('ProfilePhotos/'~utilisateur.profilePhoto.photoProfileTag) }}" title="Image de profil de "~{{ utilisateur.nom ~" "~ utilisateur.prenom }}">
+                        <button class="btn btn-danger btn-delete-image">
+                            <a class="nounder-link" href="{{ path('participants_delete_img', {'id': utilisateur.id, 'name': utilisateur.profilePhoto.photoProfileTag}) }}">Supprimer la photo de profil</a>
+                        </button>
+                    </div>
+
                     {# todo: revoir le css du bouton de suppression de l'image de profil #}
                 {% else %}
                     <img class="img-utilisateur" src="{{ asset('Images/imgProfileDefault.png') }}" title="Image de profil de "~{{ utilisateur.nom ~" "~ utilisateur.prenom }}>
@@ -28,7 +33,8 @@
 
             <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
                 {{ form_start(updateForm) }}
-                {{ form_widget(updateForm) }}
+
+                 {{ form_widget(updateForm) }}
                     <button type="submit" class="btn btn-primary mt-3">Mettre à jour le profil</button>
                 {{ form_end(updateForm) }}
             </div>

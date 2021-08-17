@@ -95,7 +95,7 @@ class GestionSortieController extends AbstractController
 
             // Permet de récuperer l'id 2 : état Ouverte
             $etat = new Etat();
-            $etat = $etatRepository->find(8)->getLibelle();
+            $etat = $etatRepository->find(2)->getLibelle();
 
 
             // Si la date d'inscription est supérieur à la date du jours et que l'état de la sortie est "ouverte"

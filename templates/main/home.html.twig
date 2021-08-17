@@ -15,6 +15,10 @@
 
 
 <div class="container">
+    <div class="d-flex justify-content-end" >
+        Date du jour : {{ 'now'|date("d/m/Y") }}<br>
+        Participant : {{ app.user.prenom }} {{ app.user.nom| first | upper }}.
+    </div>
     {{ form_start(FilterActivityForm) }}
     <div class="d-flex justify-content-start     align-items-center mb-5">
         <div class="ms-4 me-4">

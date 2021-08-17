@@ -7,6 +7,7 @@ use App\Entity\Participant;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -65,6 +66,13 @@ class UpdateParticipantProfileType extends AbstractType
             ->add('campus', EntityType::class, [
                 'class' => Campus::class,
                 'choice_label' => 'nom'
+            ])
+            //on ajoute notre champ image dans le formulaire
+            ->add('profilePhoto', FileType::class,[
+                'label' => 'Télécharger une photo de profil',
+                'multiple' => false,
+                'mapped' => false,
+                'required' => false
             ])
         ;
     }

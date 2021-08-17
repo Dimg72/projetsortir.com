@@ -86,4 +86,38 @@ J'UTILISE TA PAGE J'AI QUE QUELQUES LIGNES BISOUS
     border-bottom: #000000 solid 1px;
 }
 
+.flash{
+    padding: 20px;
+    font-weight: bold;
+    font-size: 1.4rem;
+    margin: 1rem 0;
+    border-radius: 5px;
+}
+
+.flash-success{
+    background-color: lawngreen;
+}
+
+.flah-primary{
+    background-color: lightskyblue;
+}
+
+.btn-delete-image{
+    position: relative;
+
+    text-align: center;
+    width: auto;
+}
+
+a.nounder-link:link{
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+a.nounder-link:hover{
+    color: black;
+}
+
+
+
 

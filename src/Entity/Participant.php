@@ -74,6 +74,11 @@ class Participant implements UserInterface
      */
     private $sorties;
 
+    /**
+     * @ORM\OneToOne(targetEntity=ProfilePhoto::class, mappedBy="participant", orphanRemoval=true, cascade={"persist", "remove"})
+     */
+    private $profilePhoto;
+
     public function __construct()
     {
         $this->sorties = new ArrayCollection();
@@ -261,6 +266,23 @@ class Participant implements UserInterface
     public function removeSorty(Sortie $sorty): self
     {
         $this->sorties->removeElement($sorty);
+
+        return $this;
+    }
+
+    public function getProfilePhoto(): ?ProfilePhoto
+    {
+        return $this->profilePhoto;
+    }
+
+    public function setProfilePhoto(ProfilePhoto $profilePhoto): self
+    {
+        // set the owning side of the relation if necessary
+        if ($profilePhoto->getParticipant() !== $this) {
+            $profilePhoto->setParticipant($this);
+        }
+
+        $this->profilePhoto = $profilePhoto;
 
         return $this;
     }

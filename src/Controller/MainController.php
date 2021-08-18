@@ -81,18 +81,15 @@ class MainController extends AbstractController
         $createSortieForm = $this->createForm(CreateSortieType::class);
         $createSortieForm->handleRequest($request);
 
+        if ($createSortieForm->isSubmitted() && $createSortieForm->isValid())
+
         return $this->render('main/create.html.twig',[
             'createSortieForm' => $createSortieForm->createView(),
             'lieux'=> $lieux,
         ]);
-    }
 
-//    /**
-//     * @Route ("/registerSortie", name="main_registerSortie"
-//     */
-//    public function registerSortie(){
-//
-//    }
+
+    }
 
 
 }

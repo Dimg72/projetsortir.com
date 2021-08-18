@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ville index{% endblock %}
+
+{% block body %}
+    <div class="container">
+    <h1 class="h1-romain">Liste des villes</h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Nom</th>
+                <th scope="col">CodePostal</th>
+                <th scope="col">actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for ville in villes %}
+            <tr>
+                <td>{{ ville.id }}</td>
+                <td>{{ ville.nom }}</td>
+                <td>{{ ville.codePostal }}</td>
+                <td>
+                    <a class="details-link" style="border-right: black solid 1px;padding-right: 0.5em" href="{{ path('ville_show', {'id': ville.id}) }}">Voir</a>
+                    <a class="details-link" href="{{ path('ville_edit', {'id': ville.id}) }}">Modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">Aucune ville enregistrée</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="details-link" href="{{ path('ville_new') }}">Créer une nouvelle ville</a>
+    </div>
+{% endblock %}

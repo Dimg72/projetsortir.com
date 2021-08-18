@@ -95,11 +95,11 @@ J'UTILISE TA PAGE J'AI QUE QUELQUES LIGNES BISOUS
 }
 
 .flash-success{
-    background-color: lawngreen;
+    background-color: #7CFC00FF;
 }
 
 .flah-primary{
-    background-color: lightskyblue;
+    background-color: #87CEFAFF;
 }
 
 .btn-delete-image{
@@ -115,7 +115,16 @@ a.nounder-link:link{
 }
 
 a.nounder-link:hover{
-    color: black;
+    color: #000000FF;
+}
+
+a.details-link:link{
+    text-decoration: none;
+    color: #5eb5e0;
+}
+
+a.details-link:hover{
+    color: #00008BFF;
 }
 
 

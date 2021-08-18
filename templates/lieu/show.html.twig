@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lieu{% endblock %}
+
+{% block body %}
+    <div class="container">
+    <h1 class="h1-romain">Lieu</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td style="color: #00008b;">{{ lieu.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td style="color: #00008b;">{{ lieu.nom }}</td>
+            </tr>
+            <tr>
+                <th>Rue</th>
+                <td style="color: #00008b;">{{ lieu.rue }}</td>
+            </tr>
+            <tr>
+                <th>Latitude</th>
+                <td style="color: #00008b;">{{ lieu.latitude }}</td>
+            </tr>
+            <tr>
+                <th>Longitude</th>
+                <td style="color: #00008b;">{{ lieu.longitude }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a class="details-link" style="border-right: black solid 1px;padding-right: 0.5em" href="{{ path('lieu_index') }}">Retour à la liste des lieux</a>
+
+    <a class="details-link" href="{{ path('lieu_edit', {'id': lieu.id}) }}">Mettre à jour le lieu</a>
+
+    {{ include('lieu/_delete_form.html.twig') }}
+    </div>
+{% endblock %}

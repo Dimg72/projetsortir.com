@@ -75,7 +75,8 @@ class Participant implements UserInterface
     private $sorties;
 
     /**
-     * @ORM\OneToOne(targetEntity=ProfilePhoto::class, mappedBy="participant", orphanRemoval=true, cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=ProfilePhoto::class, mappedBy="participant", orphanRemoval=true,
+     *      cascade={"persist", "remove"})
      */
     private $profilePhoto;
 

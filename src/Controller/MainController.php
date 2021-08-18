@@ -53,7 +53,9 @@ class MainController extends AbstractController
 
             ]);
         }
-        $sorties = $sortieRepository->findAll();
+        $campus = $user->getCampus()->getId();
+
+        $sorties = $sortieRepository->findSortieByCampus($campus);
         //$sorties = $sortieRepository->findSorties($filtre, $user);
 
 
@@ -84,6 +86,13 @@ class MainController extends AbstractController
             'lieux'=> $lieux,
         ]);
     }
+
+//    /**
+//     * @Route ("/registerSortie", name="main_registerSortie"
+//     */
+//    public function registerSortie(){
+//
+//    }
 
 
 }

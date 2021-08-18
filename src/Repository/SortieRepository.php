@@ -25,13 +25,25 @@ class SortieRepository extends ServiceEntityRepository
     /**
      * @return Sortie[]
      */
+
+    public function findSortieByCampus($campus){
+        $queryBuilder =$this->createQueryBuilder('s');
+        $queryBuilder->andWhere('s.campus = :campus')
+            ->setParameter('campus', $campus);
+        $query = $queryBuilder->getQuery();
+        $query->setMaxResults(50);
+        $paginator = new Paginator($query);
+        return $paginator;
+    }
+
     public function findSorties($campus, $motCle, $dateDebut, $dateLimiteInscription, $checkBoxs, $user){
 
 
         $queryBuilder =$this->createQueryBuilder('s');
-        $queryBuilder->leftJoin('s.participants','p')->addSelect('p');
         $queryBuilder->andWhere('s.campus = :campus')
-        ->setParameter('campus', $campus);
+            ->setParameter('campus', $campus);
+
+
         if (!empty($motCle))
         {
             $queryBuilder->andWhere('s.nom LIKE :motCle')
@@ -71,10 +83,8 @@ class SortieRepository extends ServiceEntityRepository
 
         $query = $queryBuilder->getQuery();
         $query->setMaxResults(30);
-
-        $result = $query->getResult();
-
-        return $result;
+        $paginator = new Paginator($query);
+        return $paginator;
     }
 
 

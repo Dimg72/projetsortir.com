@@ -25,27 +25,36 @@
             <div>
                 Campus :
                 <input type="text" value="{{ app.user.campus.nom }}" class="form-control" readonly> <br>
-                Lieu
-                <select name="lieuRecup" id="lieu" class="form-control">
-                    {% for lieu in lieux %}
-                        {% set lieu_json =
-                            {
-                                ville:lieu.ville.nom,
-                                rue:lieu.rue,
-                                codePostale:lieu.ville.codePostal,
-                                longitude:lieu.longitude,
-                                latitude:lieu.latitude
-                            }
-                        %}
-                        <option data-lieu="{{ lieu_json | json_encode() }}" value="{{ lieu.nom }}"> {{ lieu.nom }} - {{ lieu.ville.nom}} </option>
-                    {% endfor %}
-                </select>
+                <div>
+                    <div>
+                        Lieu
+                        <div class="d-flex align-items-center">
+                            <select name="lieuRecup" id="lieu" class="form-control">
+                                {% for lieu in lieux %}
+                                    {% set lieu_json =
+                                        {
+                                            ville:lieu.ville.nom,
+                                            rue:lieu.rue,
+                                            codePostale:lieu.ville.codePostal,
+                                            longitude:lieu.longitude,
+                                            latitude:lieu.latitude
+                                        }
+                                    %}
+                                    <option data-lieu="{{ lieu_json | json_encode() }}" value="{{ lieu.nom }}"> {{ lieu.nom }} - {{ lieu.ville.nom}} </option>
+                                {% endfor %}
+                            </select>
+                            <a href="{{ path('lieu_new') }}"class="ms-2   "><i class="bi bi-plus-circle"style="font-size: 2rem"></i></a>
+                        </div>
+                    </div>
 
-                <div>Ville : <span id="ville_js_sortie"></span> </div>
-                <div>Rue : <span id="rue_js_sortie"></span> </div>
-                <div>Code Postale : <span id="code_js_sortie"></span> </div>
-                <div>Longitude : <span id="longitude_js_sortie"></span> </div>
-                <div>Latitude : <span id="latitude_js_sortie"></span> </div>
+
+                    <div>Ville : <span id="ville_js_sortie"></span> </div>
+                    <div>Rue : <span id="rue_js_sortie"></span> </div>
+                    <div>Code Postale : <span id="code_js_sortie"></span> </div>
+                    <div>Longitude : <span id="longitude_js_sortie"></span> </div>
+                    <div>Latitude : <span id="latitude_js_sortie"></span> </div>
+                </div>
+
             </div>
         </div>
         <div class="d-flex justify-content-center ms-2 me-2 mt-4">

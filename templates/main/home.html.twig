@@ -55,6 +55,7 @@
         <tbody>
         {% set i = 0 %}
         {% for sortie in sorties %}
+            {% if sortie.etat.libelle != "Créée"  or sortie.organisateur.id == app.user.id  %}
             <tr>
                 <td>{{ sortie.nom }}</td>
                 <td>{{ sortie.dateHeureDebut |format_datetime('short', 'short', locale='fr') }}</td>
@@ -149,9 +150,13 @@
                     {% endif %}
                 </td>
             </tr>
+            {% endif %}
             {% set i = i+1 %}
         {% endfor %}
           </tbody>
     </table>
+
+    <a href="{{ path('main_create') }}"><button class="btn-lg">Créer une sortie</button></a>
 </div>
+
 {% endblock %}

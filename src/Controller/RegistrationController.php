@@ -81,7 +81,6 @@ class RegistrationController extends AbstractController
         $supUtilForm = $this->createForm(SuppUtilisateursType::class);
         $supUtilForm->handleRequest($request);
 
-
         if($supUtilForm->isSubmitted() AND $supUtilForm->isValid()){
             $participants = $supUtilForm['email']->getData();
 

@@ -2,20 +2,24 @@
 
 {% block body %}
 
-{#        {% for utilisateur in utilisateurs %}#}
-{#            <p> {{ utilisateur.nom }}</p>#}
-{#        {% endfor %}#}
-        <div>
-         <h2>Suppression des utilisateurs</h2>
+        <div class="supputilisateurtitre">
+                <h4 >Suppression des utilisateurs</h4>
         </div>
 
-        <div>
-        {{ form_start(supUtilForm) }}
+        <div class="formulaireSuppUtil container">
+                <h6 class="titleListeSuppUtil"> Listes des emails des utilisateurs</h6>
+                {{ form_start(supUtilForm) }}
 
-        {{ form_widget(supUtilForm) }}
-        <input class="bouttonFormAnnuler btn btn-dark" type="submit" value="Submit">
-        {{ form_end(supUtilForm) }}
+                {{ form_widget(supUtilForm) }}
+
+                <p class="textFormSuppUtil">Choissisez plusieurs utilisateurs de la liste en restant appuyé sur CTRL + clic</p>
+
+                <div class="boutonValiderSupp">
+                         <input class="bouttonFormAnnuler btn btn-dark" type="submit" value="Submit">
+                </div>
+                {{ form_end(supUtilForm) }}
         </div>
+
 {% endblock %}
 
 {% block title %}

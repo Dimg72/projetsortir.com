@@ -44,7 +44,6 @@ class GestionSortieController extends AbstractController
         // Pour afficher les informations sur la page.
          $sortieId = $sortieRepository->findIdAnnulSortie($sortieC->getId());
 
-
          // Permet de récuperer l'id 6 : état annulée
          $etat = new Etat();
          // Etat 6 : Annulée
@@ -64,7 +63,7 @@ class GestionSortieController extends AbstractController
                  $entityManager->flush();
 
 
-                 $this->addFlash('sucess', 'Annulation de votre sortie, validée');
+                 $this->addFlash('success', 'Annulation de votre sortie, validée');
                  return $this->redirectToRoute('main_home');
              }
 
@@ -98,8 +97,10 @@ class GestionSortieController extends AbstractController
             $etat = $etatRepository->find(2)->getLibelle();
 
 
+
             // Si la date d'inscription est supérieur à la date du jours et que l'état de la sortie est "ouverte"
-       if($sortie->getDateLimiteInscription() > $dateDuJour AND $sortie->getEtat()->getLibelle() === $etat) {
+       if($sortie->getDateLimiteInscription() > $dateDuJour AND $sortie->getEtat()->getLibelle() === $etat AND
+       $sortie->getNbInscriptionsMax() > $sortie->getParticipants()->count()) {
 
 
                 // inscription du participant dans la sortie
@@ -107,7 +108,7 @@ class GestionSortieController extends AbstractController
                 $entityManager->persist($sortie);
                 $entityManager->flush();
 
-                $this->addFlash('sucess', 'Inscription à la sortie, validée');
+                $this->addFlash('success', 'Inscription à la sortie, validée');
                 return $this->redirectToRoute('main_home');
             }
        else {
@@ -134,7 +135,7 @@ class GestionSortieController extends AbstractController
             $entityManager->persist($sortie);
             $entityManager->flush();
 
-            $this->addFlash('sucess', 'Desincription à la sortie, validée');
+            $this->addFlash('success', 'Desincription à la sortie, validée');
             return $this->redirectToRoute('main_home');
         }
         else{

@@ -99,10 +99,11 @@ class UtilisateurController extends AbstractController
      */
     public function liste(UtilisateurRepository $utilisateurRepository): Response
     {
-        $participants = $utilisateurRepository->findAll();
+        $participants = $utilisateurRepository->findAllAsc();
+
 
         return $this->render('utilisateur/listeParticipants.html.twig', [
-            "utilisateurs" => $participants
+            "participants" => $participants
         ]);
     }
 

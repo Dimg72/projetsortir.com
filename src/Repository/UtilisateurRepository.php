@@ -65,4 +65,17 @@ class UtilisateurRepository extends ServiceEntityRepository implements PasswordU
             ->getOneOrNullResult();
     }
 
+    public function findAllAsc()
+    {
+        $qb =  $this->createQueryBuilder('p');
+        $qb->leftJoin('p.campus', 'c')
+            ->addSelect('c');
+        $qb->leftJoin('p.profilePhoto', 'pp')
+            ->addSelect('pp');
+        $qb->orderBy('p.nom', 'ASC');
+
+        $query = $qb->getQuery();
+        return $query->execute();
+    }
+
 }

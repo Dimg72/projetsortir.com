@@ -6,10 +6,13 @@ namespace App\Controller;
 use App\Entity\Sortie;
 use App\Form\CreateSortieType;
 use App\Form\FilterActivityType;
+use App\Repository\CampusRepository;
+use App\Repository\EtatRepository;
 use App\Repository\LieuRepository;
 use App\Repository\SortieRepository;
 use App\Repository\UtilisateurRepository;
 use App\Repository\VilleRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -70,18 +73,46 @@ class MainController extends AbstractController
     /**
      * @Route ("/create", name="main_create")
      */
-    public function create(UtilisateurRepository $utilisateurRepository, Request $request, LieuRepository $lieuRepository):Response
+    public function create(UtilisateurRepository $utilisateurRepository, EtatRepository $etatRepository, Request $request, LieuRepository $lieuRepository, EntityManagerInterface $entityManager):Response
     {
 
         $sortie = new Sortie();
-        $user = $utilisateurRepository->find($this->getUser()->getId());
-        $sortie->setCampus($user->getCampus());
         $lieux = $lieuRepository->findAll();
 
-        $createSortieForm = $this->createForm(CreateSortieType::class);
+        $createSortieForm = $this->createForm(CreateSortieType::class, $sortie);
+
         $createSortieForm->handleRequest($request);
 
-        if ($createSortieForm->isSubmitted() && $createSortieForm->isValid())
+        if ($createSortieForm->isSubmitted())
+        {
+
+            $sortie->setOrganisateur($this->getUser());
+            $sortie->setCampus($this->getUser()->getCampus());
+            $nomLieu = $request->request->get("lieuRecup");
+            $lieuRecup = $lieuRepository->FindLieuWithName($nomLieu);
+            $sortie->setLieu($lieuRecup[0]);
+            $valueEtat = $request->request->get("Enregistrer");
+            $valueEtat2 = $request->request->get("Publier");
+            $etat=null;
+            if($valueEtat == 1)
+            {
+                $etat = $etatRepository->find(1);
+            }
+            if($valueEtat2 == 2)
+            {
+                $etat = $etatRepository->find(2);
+            }
+
+            $sortie->setEtat($etat);
+
+
+            $entityManager->persist($sortie);
+
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Votre sortie a bien été ajouté!');
+            return $this->redirectToRoute('main_home');
+       }
 
         return $this->render('main/create.html.twig',[
             'createSortieForm' => $createSortieForm->createView(),

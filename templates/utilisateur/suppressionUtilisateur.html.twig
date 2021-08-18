@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+{#        {% for utilisateur in utilisateurs %}#}
+{#            <p> {{ utilisateur.nom }}</p>#}
+{#        {% endfor %}#}
+        <div>
+         <h2>Suppression des utilisateurs</h2>
+        </div>
+
+        <div>
+        {{ form_start(supUtilForm) }}
+
+        {{ form_widget(supUtilForm) }}
+        <input class="bouttonFormAnnuler btn btn-dark" type="submit" value="Submit">
+        {{ form_end(supUtilForm) }}
+        </div>
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+

@@ -4,7 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Participant;
 use App\Entity\ProfilePhoto;
+use App\Entity\Sortie;
 use App\Form\RegistrationFormType;
+use App\Form\SuppUtilisateursType;
+use App\Repository\SortieRepository;
+use App\Repository\UtilisateurRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -65,4 +70,38 @@ class RegistrationController extends AbstractController
             'registrationForm' => $form->createView(),
         ]);
     }
+
+
+    /**
+     * @Route("/admin/suppression", name="app_suppression")
+     */
+    public function suppreUtili(Request $request, EntityManagerInterface $entityManager, SortieRepository $sortieRepository) : Response {
+
+
+        $supUtilForm = $this->createForm(SuppUtilisateursType::class);
+        $supUtilForm->handleRequest($request);
+
+
+        if($supUtilForm->isSubmitted() AND $supUtilForm->isValid()){
+            $participants = $supUtilForm['email']->getData();
+
+            foreach($participants as $unParticipant) {
+                $sorties = $sortieRepository->findOrganisateurId($unParticipant->getId());
+                foreach ($sorties as $uneSortie){
+                    $entityManager->remove($uneSortie);
+                }
+                $entityManager->remove($unParticipant);
+            }
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Le(s) profil(s) ont bien été supprimé(s)');
+            return $this->redirectToRoute('main_home');
+        }
+
+        return $this->render('utilisateur/suppressionUtilisateur.html.twig', [
+             'supUtilForm' =>$supUtilForm->createView()
+        ]);
+    }
+
+
 }

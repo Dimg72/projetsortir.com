@@ -14,6 +14,7 @@ class SuppUtilisateursType extends AbstractType
     {
         $builder
             ->add('email', EntityType::class, [
+                'label'=>' ',
                 'multiple'=>true,
                 'class'=>Participant::class,
                 'choice_label'=> 'email'

@@ -47,7 +47,7 @@ class GestionSortieController extends AbstractController
          // Permet de récuperer l'id 6 : état annulée
          $etat = new Etat();
          // Etat 6 : Annulée
-         $etat = $etatRepository->find(12);
+         $etat = $etatRepository->find(6);
 
          $dateDuJour = new \DateTime();
 

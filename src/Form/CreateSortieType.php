@@ -44,17 +44,19 @@ class CreateSortieType extends AbstractType
             ->add('infosSortie', TextareaType::class,[
                 'label'=>'Description et infos: '
             ])
-            ->add('lieu',EntityType::class,[
-                'class'=>Lieu::class,
-                'choice_label'=> 'nom',
-                'label'=>'Lieu: '
-            ])
-            ->add('ville', EntityType::class,[
-                'class'=>Ville::class,
+//            ->add('lieu',EntityType::class,[
+//                'class'=>Lieu::class,
+//                'choice_label'=> 'nom',
+//                'label'=>'Lieu: '
+//            ])
+//            ->add('ville', EntityType::class,[
+//                'class'=>Ville::class,
+//                'choice_label'=>'nom',
+//                'label'=>'Ville: '
+//            ])
+            ->add('campus', EntityType::class,[
+                'class'=>Campus::class,
                 'choice_label'=>'nom',
-                'label'=>'Ville: '
-            ])
-            ->add('campus', TextType::class,[
                 'label' => "Campus"
             ])
         ;

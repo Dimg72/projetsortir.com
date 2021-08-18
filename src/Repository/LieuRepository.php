@@ -19,6 +19,17 @@ class LieuRepository extends ServiceEntityRepository
         parent::__construct($registry, Lieu::class);
     }
 
+    public function FindLieuWithName($nameLieu)
+    {
+        $queryBuilder =$this->createQueryBuilder('l');
+        $queryBuilder->andWhere('l.nom = :nom')
+            ->setParameter('nom', $nameLieu);
+        $query = $queryBuilder->getQuery();
+        $query->setMaxResults(30);
+        $resultat = $query->getResult();
+        return $resultat;
+    }
+
     // /**
     //  * @return Lieu[] Returns an array of Lieu objects
     //  */

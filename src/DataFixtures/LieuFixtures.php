@@ -20,7 +20,7 @@ class LieuFixtures extends Fixture implements DependentFixtureInterface
             $lieu->setLongitude($faker->longitude($min = -180, $max = 180));
             $lieu->setLatitude($faker->latitude($min = -90, $max = 90));
             $lieu->setVille($this->getReference(Ville::class.mt_rand(1,20)));
-            $lieu->setRue($faker->unique()->address());
+            $lieu->setRue($faker->unique()->streetAddress());
 
             $this->addReference(Lieu::class.$i,$lieu);
             $manager->persist($lieu);

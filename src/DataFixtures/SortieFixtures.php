@@ -39,7 +39,7 @@ class SortieFixtures extends Fixture implements DependentFixtureInterface
 
 
             $sortie->setEtat($this->getReference(Etat::class.$idEtat));
-            $sortie->setInfosSortie($faker->sentence(mt_rand(3,8)));
+            $sortie->setInfosSortie($faker->realTextBetween($minNbChars = 160, $maxNbChars = 200, $indexSize = 2));
             $sortie->setLieu($this->getReference(Lieu::class.mt_rand(1,80)));
             $sortie->setNbInscriptionsMax($faker->numberBetween(3,22));
             $sortie->setOrganisateur($this->getReference(Participant::class.mt_rand(1,20)));

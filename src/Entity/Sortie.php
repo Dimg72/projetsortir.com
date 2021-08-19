@@ -6,6 +6,7 @@ use App\Repository\SortieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=SortieRepository::class)
@@ -20,6 +21,12 @@ class Sortie
     private $id;
 
     /**
+     * @Assert\Length(
+     *     min=2,
+     *     max=255,
+     *     minMessage="Veuillez inscrire 2 caractères minimum, s'il vous plait",
+     *     maxMessage="Veuillez inscrire 255 caractères maximum, s'il vous plait"
+     * )
      * @ORM\Column(type="string", length=255)
      */
     private $nom;
@@ -30,6 +37,17 @@ class Sortie
     private $dateHeureDebut;
 
     /**
+     * @Assert\Range(
+     *     min=0,
+     *     max=2500,
+     *     notInRangeMessage="{{ min }} : Veuillez saisir une durée supérieur à 0",
+     * )
+     * @Assert\Length(
+     *     min=1,
+     *     max=10,
+     *     minMessage="Veuillez inscrire 1 caractères minimum, s'il vous plait",
+     *     maxMessage="Veuillez inscrire 10 caractères maximum, s'il vous plait"
+     * )
      * @ORM\Column(type="smallint")
      */
     private $duree;
@@ -40,6 +58,11 @@ class Sortie
     private $dateLimiteInscription;
 
     /**
+     * @Assert\Range(
+     *     min=0,
+     *     max=2500,
+     *     notInRangeMessage="{{ min }} : Veuillez saisir une durée supérieur à 0",
+     * )
      * @ORM\Column(type="smallint")
      */
     private $nbInscriptionsMax;

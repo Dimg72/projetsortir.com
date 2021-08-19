@@ -6,6 +6,7 @@ use App\Repository\LieuRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=LieuRepository::class)
@@ -20,11 +21,23 @@ class Lieu
     private $id;
 
     /**
+     * @Assert\Length(
+     *     min=5,
+     *     max= 255,
+     *     minMessage="Veuillez inscrire 5 caractères minimum, s'il vous plait",
+     *     maxMessage="Veuillez inscrire 255 caractères maximum, s'il vous plait"
+     * )
      * @ORM\Column(type="string", length=255)
      */
     private $nom;
 
     /**
+     * @Assert\Length(
+     *     min=5,
+     *     max=255,
+     *     minMessage="Veuillez inscrire 5 caractères minimum, s'il vous plait",
+     *     maxMessage="Veuillez inscrire 50 caractères maximum, s'il vous plait"
+     * )
      * @ORM\Column(type="string", length=255)
      */
     private $rue;
@@ -46,9 +59,11 @@ class Lieu
     private $ville;
 
     /**
-     * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="lieu")
+     * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="lieu", orphanRemoval=true)
      */
     private $sorties;
+
+
 
     public function __construct()
     {
@@ -149,4 +164,5 @@ class Lieu
 
         return $this;
     }
+
 }

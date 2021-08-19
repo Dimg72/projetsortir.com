@@ -28,18 +28,33 @@ class VilleController extends AbstractController
     /**
      * @Route("/new", name="ville_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, VilleRepository $villeRepository): Response
     {
         $ville = new Ville();
         $form = $this->createForm(VilleType::class, $ville);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($ville);
-            $entityManager->flush();
 
-            return $this->redirectToRoute('ville_index', [], Response::HTTP_SEE_OTHER);
+            if (!$villeRepository->findOneBySomeField($form->get('codePostal')->getData(), $form->get('nom')->getData()))
+                {
+
+                    $entityManager = $this->getDoctrine()->getManager();
+                    $entityManager->persist($ville);
+                    $entityManager->flush();
+
+                    $this->addFlash('success', 'La ville a bien été ajoutée');
+
+                    return $this->redirectToRoute('ville_index', [], Response::HTTP_SEE_OTHER);
+                }
+            else
+                {
+                    $this->addFlash('fail', 'La ville existe déjà');
+                    return $this->render('ville/new.html.twig', [
+                        'ville' => $ville,
+                        'form' => $form->createView(),
+                    ]);
+                }
         }
 
         return $this->render('ville/new.html.twig', [
@@ -61,15 +76,28 @@ class VilleController extends AbstractController
     /**
      * @Route("/{id}/edit", name="ville_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Ville $ville): Response
+    public function edit(Request $request, Ville $ville, VilleRepository $villeRepository): Response
     {
         $form = $this->createForm(VilleType::class, $ville);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('ville_index', [], Response::HTTP_SEE_OTHER);
+            if (!$villeRepository->findOneBySomeField($form->get('codePostal')->getData(), $form->get('nom')->getData()))
+                {
+
+                    $this->getDoctrine()->getManager()->flush();
+                    $this->addFlash('success', 'La ville a bien été mise à jour');
+                    return $this->redirectToRoute('ville_index', [], Response::HTTP_SEE_OTHER);
+                }
+            else
+                {
+                    $this->addFlash('fail', 'Cette ville existe déjà');
+                    return $this->render('ville/edit.html.twig', [
+                        'ville' => $ville,
+                        'form' => $form->createView(),
+                    ]);
+                }
         }
 
         return $this->render('ville/edit.html.twig', [

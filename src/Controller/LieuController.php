@@ -36,8 +36,6 @@ class LieuController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $villeSelected = new Ville();
-            $villeSelected = $form->get('ville')->getData();
             if (!$lieuRepository->findOneBySomeField($form->get('rue')->getData(),$form->get('ville')->getData()->getNom()))
                 {
                     $entityManager = $this->getDoctrine()->getManager();
@@ -75,15 +73,27 @@ class LieuController extends AbstractController
     /**
      * @Route("/{id}/edit", name="lieu_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Lieu $lieu): Response
+    public function edit(Request $request, Lieu $lieu, LieuRepository $lieuRepository): Response
     {
         $form = $this->createForm(LieuType::class, $lieu);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('lieu_index', [], Response::HTTP_SEE_OTHER);
+            if (!$lieuRepository->findOneBySomeField($form->get('rue')->getData(),$form->get('ville')->getData()->getNom()))
+                {
+                    $this->getDoctrine()->getManager()->flush();
+                    $this->addFlash('success', 'Le lieu a bien été mis à jour');
+                    return $this->redirectToRoute('lieu_index', [], Response::HTTP_SEE_OTHER);
+                }
+            else
+                {
+                    $this->addFlash('fail', 'Ce lieu existe déjà');
+                    return $this->render('lieu/edit.html.twig', [
+                        'lieu' => $lieu,
+                        'form' => $form->createView(),
+                    ]);
+                }
         }
 
         return $this->render('lieu/edit.html.twig', [

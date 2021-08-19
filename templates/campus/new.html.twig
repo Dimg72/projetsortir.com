@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau Campus{% endblock %}
+
+{% block body %}
+    <div class="container">
+    <h1 class="h1-romain">Créer un nouveau campus</h1>
+
+    {{ include('campus/_form.html.twig') }}
+
+    <a class="details-link" href="{{ path('campus_index') }}">Retour à la liste des campus</a>
+    </div>
+{% endblock %}

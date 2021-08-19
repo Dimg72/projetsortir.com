@@ -4,21 +4,28 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <a class="navbar-brand" href="{{ path('main_home')}}"><img src="{{ asset('Images/Sortir.com.logo.gif') }}" alt="logo"></a>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav">
-                {% if app.user %}
-                    <li class="nav-item"><a class="nav-link"  href="{{ path('ville_index') }}" title="City">Ville</a></li>
-                    <li class="nav-item"><a class="nav-link"  href="{{ path('lieu_index') }}" title="Campus">Lieux</a></li>
-                    <li class="nav-item"><a class="nav-link"  href="{{ path('participants_details', {'id': app.user.id}) }}" title="My profile">Mon profil</a></li>
-                    <li class="nav-item"><a class="nav-link"  href="{{ path('app_logout') }}" title="logOut">Se déconnecter </a></li>
-                {% endif %}
-                {% if is_granted('ROLE_ADMIN')%}
-                    <li class="nav-item"><a class="nav-link"  href="#" title="Campus">Campus</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ path('app_register') }}">Enregistrer un nouveau participant</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ path('app_register') }}">Consulter la liste des inscrtits</a></li>
-                {% endif %}
-            </ul>
-        </div>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav">
+                    {% if app.user %}
+                        <li class="nav-item"><a class="nav-link"  href="{{ path('ville_index') }}" title="City">Ville</a></li>
+                        <li class="nav-item"><a class="nav-link"  href="{{ path('lieu_index') }}" title="Campus">Lieux</a></li>
+                        <li class="nav-item"><a class="nav-link"  href="{{ path('participants_details', {'id': app.user.id}) }}" title="My profile">Mon profil</a></li>
+                        {% if is_granted('ROLE_ADMIN')%}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Admin Dashboard
+                                </a>
+                                <ul class="dropdown-menu"aria-labelledby="AdminDashboard">
+                                    <li><a class="dropdown-item"  href="#" title="Campus">Campus</a></li>
+                                    <li><a class="dropdown-item"  href="{{ path('app_register') }}">Enregistrer un nouveau participant</a></li>
+                                    <li><a class="dropdown-item" href="{{ path('app_register') }}">Consulter la liste des inscrtits</a></li>
+                                </ul>
+                            </li>
+                        {% endif %}
+                        <li class="nav-item"><a class="nav-link"  href="{{ path('app_logout') }}" title="logOut">Se déconnecter </a></li>
+                    {% endif %}
+                </ul>
+            </div>
     </nav>
 </div>
 {# todo : afficher ele bouton toggle à droite car ça surcharge à gauche avec l'image #}

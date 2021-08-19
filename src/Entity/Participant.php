@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UtilisateurRepository::class)
@@ -23,6 +24,9 @@ class Participant implements UserInterface
     private $id;
 
     /**
+     * @Assert\Email(
+     *     message="l'email '{{ value }}' n'est pas un email valide"
+     * )
      * @ORM\Column(type="string", length=180, unique=true)
      */
     private $email;
@@ -39,16 +43,34 @@ class Participant implements UserInterface
     private $password;
 
     /**
+     * @Assert\Length(
+     *     min=4,
+     *     max=255,
+     *     minMessage="Veuillez inscrire 4 caractères minimum, s'il vous plait",
+     *     maxMessage="Veuillez inscrire 255 caractères maximum, s'il vous plait"
+     * )
      * @ORM\Column(type="string", length=255)
      */
     private $nom;
 
     /**
+     * @Assert\Length(
+     *     min=4,
+     *     max=255,
+     *     minMessage="Veuillez inscrire 4 caractères minimum, s'il vous plait",
+     *     maxMessage="Veuillez inscrire 255 caractères maximum, s'il vous plait"
+     * )
      * @ORM\Column(type="string", length=255)
      */
     private $prenom;
 
     /**
+     * * @Assert\Length(
+     *     min=10,
+     *     max=30,
+     *     minMessage="Veuillez inscrire 10 caractères minimum, s'il vous plait",
+     *     maxMessage="Veuillez inscrire 30 caractères maximum, s'il vous plait"
+     * )
      * @ORM\Column(type="string", length=30)
      */
     private $telephone;

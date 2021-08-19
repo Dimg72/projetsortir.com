@@ -9,6 +9,7 @@ use App\Entity\Sortie;
 use App\Entity\Ville;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -25,7 +26,7 @@ class CreateSortieType extends AbstractType
             ->add('nom', TextType::class, [
                 'label'=>'Nom de la sortie: '
             ])
-            ->add('dateHeureDebut', DateType::class,[
+            ->add('dateHeureDebut', DateTimeType::class,[
                 'label'=>'Date et heure de sortie: ',
                 'html5'=>true,
                 'widget'=>'single_text'
@@ -33,7 +34,7 @@ class CreateSortieType extends AbstractType
             ->add('duree',IntegerType::class,[
                 'label'=>'Durée (min): '
             ])
-            ->add('dateLimiteInscription',DateType::class, [
+            ->add('dateLimiteInscription',DateTimeType::class, [
                 'label'=>'Date limite d\'inscription: ',
                 'html5'=>true,
                 'widget'=>'single_text'

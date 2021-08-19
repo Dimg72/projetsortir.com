@@ -75,12 +75,14 @@
                             {# si la sortie est en état ouverte  afficher le bouton "afficher" et "annuler"#}
 
                         {% elseif sortie.etat.libelle == "Ouverte" %}
-                            <a href="{{ path('sortie_detail', {'id': sortie.id}) }}">Afficher</a> - <a href="{{ path('gestion_sortie/annuler', {'id': sortie.id}) }}">Annuler</a>
+                            <a href="{{ path('sortie_detail', {'id': sortie.id}) }}">Afficher</a> - <a href="{{ path('gestion_sortie/annuler', {'id': sortie.id}) }}">Annuler</a> -
+                            <a href="{{ path('gestion_sortie/sinscrire',{'id':sortie.id})}}">S'inscrire</a>
 
                             {# si la sortie est en état cloturée afficher le bouton "afficher" et "annuler" #}
 
                         {% elseif sortie.etat.libelle == "Cloturée" %}
-                            <a href="{{ path('sortie_detail', {'id': sortie.id}) }}">Afficher</a> - <a href="{{ path('gestion_sortie/annuler', {'id': sortie.id}) }}">Annuler</a>
+                            <a href="{{ path('sortie_detail', {'id': sortie.id}) }}">Afficher</a> - <a href="{{ path('gestion_sortie/annuler', {'id': sortie.id}) }}">Annuler</a> -
+                            <a href="{{ path('gestion_sortie/desister',{'id':sortie.id})}}">Se désister</a>
 
                             {# si la sortie est en état  Activité en cours afficher le bouton "afficher"  #}
 
@@ -107,7 +109,7 @@
                                 {# si la sortie est en état cloturée afficher le bouton "afficher" et "Se désister" #}
 
                                 {% elseif sortie.etat.libelle == "Cloturée" %}
-                                    <a href="#">Afficher</a> - <a href="{{ path('gestion_sortie/desister') }}">Se désister</a>
+                                    <a href="#">Afficher</a> - <a href="{{ path('gestion_sortie/desister',{'id': sortie.id}) }}">Se désister</a>
 
                                 {# si la sortie est en état  Activité en cours afficher le bouton "afficher"  #}
 

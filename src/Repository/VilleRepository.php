@@ -36,15 +36,17 @@ class VilleRepository extends ServiceEntityRepository
     }
     */
 //
-    /*
-    public function findOneBySomeField($value): ?Ville
+
+    public function findOneBySomeField($cp, $nomVille): ?Ville
     {
         return $this->createQueryBuilder('v')
-            ->andWhere('v.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('v.nom = :nom')
+            ->setParameter('nom', $nomVille)
+            ->andWhere('v.codePostal = :cp')
+            ->setParameter('cp', $cp)
             ->getQuery()
             ->getOneOrNullResult()
         ;
     }
-    */
+
 }

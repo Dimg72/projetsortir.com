@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 
+use App\Entity\Etat;
 use App\Entity\Sortie;
 use App\Form\CreateSortieType;
 use App\Form\FilterActivityType;
@@ -73,7 +74,7 @@ class MainController extends AbstractController
     /**
      * @Route ("/create", name="main_create")
      */
-    public function create(UtilisateurRepository $utilisateurRepository, EtatRepository $etatRepository, Request $request, LieuRepository $lieuRepository, EntityManagerInterface $entityManager):Response
+    public function create(EtatRepository $etatRepository, Request $request, LieuRepository $lieuRepository, EntityManagerInterface $entityManager):Response
     {
 
         $sortie = new Sortie();
@@ -130,5 +131,82 @@ class MainController extends AbstractController
         return $this->render('main/detailsSortie.html.twig', [
             'sortie' => $sortie
         ]);
+    }
+
+    /**
+     * @Route("/update/{id}", name="sortie_update")
+     */
+    public function updateSortie(Sortie $sortie, LieuRepository $lieuRepository, Request $request, EtatRepository $etatRepository, EntityManagerInterface $entityManager):Response
+    {
+        if ($this->getUser()->getId() == $sortie->getOrganisateur()->getId())
+        {
+            if ($sortie->getEtat()->getId() == 1)
+            {
+                $lieux = $lieuRepository->findAll();
+
+                $upDateSortieForm = $this->createForm(CreateSortieType::class, $sortie);
+
+                $upDateSortieForm->handleRequest($request);
+
+                if ($upDateSortieForm->isSubmitted())
+                {
+
+                    if ($request->request->get("Supprimer")=='delete')
+                    {
+                        $entityManager->remove($sortie);
+                        $entityManager->flush();
+                        $this->addFlash('success', 'Votre sortie a bien été supprimé!');
+                        return $this->redirectToRoute('main_home');
+                    }
+                    else{
+                        $sortie->setOrganisateur($this->getUser());
+                        $sortie->setCampus($this->getUser()->getCampus());
+                        $nomLieu = $request->request->get("lieuRecup");
+                        $lieuRecup = $lieuRepository->FindLieuWithName($nomLieu);
+                        $sortie->setLieu($lieuRecup[0]);
+                        $valueEtat = $request->request->get("Enregistrer");
+                        $valueEtat2 = $request->request->get("Publier");
+                        $etat=null;
+                        if($valueEtat == 1)
+                        {
+                            $etat = $etatRepository->find(1);
+                        }
+                        if($valueEtat2 == 2)
+                        {
+                            $etat = $etatRepository->find(2);
+                        }
+
+                        $sortie->setEtat($etat);
+
+
+                        $entityManager->persist($sortie);
+
+                        $entityManager->flush();
+
+                        $this->addFlash('success', 'Votre sortie a bien été ajouté!');
+                        return $this->redirectToRoute('main_home');
+
+                    }
+
+                }
+
+                return $this->render('main/update.html.twig',[
+                    'UpdateSortieForm' => $upDateSortieForm->createView(),
+                    'lieux'=> $lieux,
+
+                ]);
+            }
+            else{
+                $this->addFlash('fail', 'Votre sortie a déjà été publié, vous ne pouvez plus la modifier');
+                return $this->redirectToRoute('main_home');
+
+            }
+           
+        }
+        else{
+            $this->addFlash('fail', 'Vous n\'êtes pas l\'organisateur de la sortie, vous ne pouvez pas la modifier!');
+            return $this->redirectToRoute('main_home');
+        }
+
     }
 }

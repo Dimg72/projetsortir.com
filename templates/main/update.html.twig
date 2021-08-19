@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% form_theme createSortieForm 'bootstrap_4_layout.html.twig' %}
+{% form_theme UpdateSortieForm 'bootstrap_4_layout.html.twig' %}
 
 {% block title %}Creer une sortie | {{ parent() }}{% endblock %}
 
@@ -14,13 +14,13 @@
     <div class="container ">
         <div class="d-flex justify-content-evenly flex-fill">
             <div>
-                {{ form_start(createSortieForm) }}
-                {{ form_row(createSortieForm.nom) }}
-                {{ form_row(createSortieForm.dateHeureDebut) }}
-                {{ form_row(createSortieForm.dateLimiteInscription) }}
-                {{ form_row(createSortieForm.nbInscriptionsMax)}}
-                {{ form_row(createSortieForm.duree) }}
-                {{ form_row(createSortieForm.infosSortie) }}
+                {{ form_start(UpdateSortieForm) }}
+                {{ form_row(UpdateSortieForm.nom) }}
+                {{ form_row(UpdateSortieForm.dateHeureDebut) }}
+                {{ form_row(UpdateSortieForm.dateLimiteInscription) }}
+                {{ form_row(UpdateSortieForm.nbInscriptionsMax)}}
+                {{ form_row(UpdateSortieForm.duree) }}
+                {{ form_row(UpdateSortieForm.infosSortie) }}
             </div>
             <div>
                 Campus :
@@ -60,7 +60,8 @@
         <div class="d-flex justify-content-center ms-2 me-2 mt-4">
             <button class="ms-2 me-2 btn btn-primary" value="1" name="Enregistrer">Enregistrer</button>
             <button class="ms-2 me-2 btn btn-primary" value="2" name="Publier">Publier la sortie</button>
-            <a href="{{ path('main_home') }}" class="btn btn-primary ms-2">Annuler</a>
+            <button class="ms-2 me-2 btn btn-primary" value="delete" name="Supprimer">Supprimer la sortie</button>
+            <button class="ms-2 me-2 btn btn-primary">Anuler</button>
 
         </div>
 

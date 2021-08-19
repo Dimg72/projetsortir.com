@@ -35,6 +35,7 @@ class GestionSortieController extends AbstractController
      */
     public function annulerSortie(Sortie $sortieC, Request $request, EntityManagerInterface $entityManager,
                                   SortieRepository $sortieRepository, EtatRepository $etatRepository) : Response {
+
         if($this->getUser()->getId() == $sortieC->getOrganisateur()->getId()) {
 
 
@@ -100,6 +101,7 @@ class GestionSortieController extends AbstractController
 
 
             // Si la date d'inscription est supérieur à la date du jours et que l'état de la sortie est "ouverte"
+            // Vérifie le nombre d'inscription max par rapport au nombre de participant total
        if($sortie->getDateLimiteInscription() > $dateDuJour AND $sortie->getEtat()->getLibelle() === $etat AND
        $sortie->getNbInscriptionsMax() > $sortie->getParticipants()->count()) {
 
@@ -108,6 +110,7 @@ class GestionSortieController extends AbstractController
                 $sortie->addParticipant($participant);
                 if($sortie->getParticipants()->count()== $sortie->getNbInscriptionsMax())
                 {
+                    // Si nombre de participant est au max, alors etat = clôture
                     $etatUpdate = $etatRepository->find(3);
                     $sortie->setEtat($etatUpdate);
                     $entityManager->persist($etatUpdate);
@@ -142,6 +145,7 @@ class GestionSortieController extends AbstractController
             $sortie->removeParticipant($partipant);
             if($sortie->getParticipants()->count()< $sortie->getNbInscriptionsMax() AND $dateDuJour<$sortie->getDateLimiteInscription())
             {
+                // si participant se désite et date d'inscription encore en cours alors etat = ouverte
                 $etat = $etatRepository->find(2);
                 $sortie->setEtat($etat);
                 $entityManager->persist($etat);
@@ -163,7 +167,7 @@ class GestionSortieController extends AbstractController
      * @Route("/gestion/publiersortie/{id}", name="gestion_sortie/publier")
      */
     public function publierSortie(Sortie $sortie, EntityManagerInterface $entityManager, EtatRepository $etatRepository): Response{
-
+        // possible de publier si etat est créé
         if($sortie->getEtat()->getId()==1){
 
             $etat = $etatRepository->find(2);

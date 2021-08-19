@@ -44,19 +44,19 @@ textarea
 .supputilisateurtitre {
     text-align: center;
     margin-bottom: 50px;
-    color : darkolivegreen;
+    color : #808000FF;
 }
 .boutonValiderSupp {
     text-align: center  ;
 }
 .flash-fail{
-    background-color: crimson;
+    background-color: #DC143CFF;
 }
 .formulaireSuppUtil {
    }
 .titleListeSuppUtil {
     text-align: center;
-    color: cadetblue;
+    color: #556B2FFF;
     margin-bottom: -20px;
 }
 .textFormSuppUtil {

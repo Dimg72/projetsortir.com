@@ -86,7 +86,7 @@ class GestionSortieController extends AbstractController
      * @Route("/gestion/inscriresortie/{id}", name="gestion_sortie/sinscrire")
      */
     public function inscrireSortie(Sortie $sortie, EtatRepository $etatRepository,
-                                   EntityManagerInterface $entityManager, SortieRepository $sortieRepository) : Response {
+                                   EntityManagerInterface $entityManager) : Response {
 
 
             $dateDuJour = new \DateTime();
@@ -106,6 +106,13 @@ class GestionSortieController extends AbstractController
 
                 // inscription du participant dans la sortie
                 $sortie->addParticipant($participant);
+                if($sortie->getParticipants()->count()== $sortie->getNbInscriptionsMax())
+                {
+                    $etatUpdate = $etatRepository->find(3);
+                    $sortie->setEtat($etatUpdate);
+                    $entityManager->persist($etatUpdate);
+                }
+
                 $entityManager->persist($sortie);
                 $entityManager->flush();
 
@@ -122,7 +129,7 @@ class GestionSortieController extends AbstractController
     /**
      * @Route("/gestion/desistersortie/{id}", name="gestion_sortie/desister")
      */
-    public function desisterSortie(Sortie $sortie, EntityManagerInterface $entityManager) : Response {
+    public function desisterSortie(Sortie $sortie, EntityManagerInterface $entityManager, EtatRepository $etatRepository) : Response {
         $dateDuJour = new \DateTime();
 
         // lecture des informations de l'utilisateur
@@ -133,6 +140,13 @@ class GestionSortieController extends AbstractController
 
             // suppression de l'inscription de l'utilisateur à la sortie
             $sortie->removeParticipant($partipant);
+            if($sortie->getParticipants()->count()< $sortie->getNbInscriptionsMax() AND $dateDuJour<$sortie->getDateLimiteInscription())
+            {
+                $etat = $etatRepository->find(2);
+                $sortie->setEtat($etat);
+                $entityManager->persist($etat);
+            }
+
             $entityManager->persist($sortie);
             $entityManager->flush();
 
@@ -143,6 +157,27 @@ class GestionSortieController extends AbstractController
             $this->addFlash('fail', 'Desincription à la sortie non valide, date passée');
             return $this->redirectToRoute('main_home');
         }
+    }
+
+    /**
+     * @Route("/gestion/publiersortie/{id}", name="gestion_sortie/publier")
+     */
+    public function publierSortie(Sortie $sortie, EntityManagerInterface $entityManager, EtatRepository $etatRepository): Response{
+
+        if($sortie->getEtat()->getId()==1){
+
+            $etat = $etatRepository->find(2);
+            $sortie->setEtat($etat);
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+            $this->addFlash('success', 'Votre sortie a bien été publiée');
+            return $this->redirectToRoute('main_home');
+        }
+      else{
+          $this->addFlash('fail', 'Votre sortie est déjà publié');
+          return $this->redirectToRoute('main_home');
+      }
+
     }
 
 

@@ -35,49 +35,50 @@ class GestionSortieController extends AbstractController
      */
     public function annulerSortie(Sortie $sortieC, Request $request, EntityManagerInterface $entityManager,
                                   SortieRepository $sortieRepository, EtatRepository $etatRepository) : Response {
-
-        // Formulaire pour l'envoi du motif en cas d'annulation
-         $sortieCForm = $this->createForm(AnnulerSortieType::class, $sortieC);
-         $sortieCForm->handleRequest($request);
-
-         // requête sql récupération des valeurs en fonction de l'id de la sortie et de l'utilisateur.
-        // Pour afficher les informations sur la page.
-         $sortieId = $sortieRepository->findIdAnnulSortie($sortieC->getId());
-
-         // Permet de récuperer l'id 6 : état annulée
-         $etat = new Etat();
-         // Etat 6 : Annulée
-         $etat = $etatRepository->find(6);
-
-         $dateDuJour = new \DateTime();
-
-            // si la date du jour est inférieur à celle de la date de début de la sortie
-         if($dateDuJour <= $sortieC->getDateHeureDebut()) {
-             if($sortieCForm->isSubmitted() && $sortieCForm->isValid()) {
-
-                 // Changement à l'état annulée
-                 $sortieC->setEtat($etat);
+        if($this->getUser()->getId() == $sortieC->getOrganisateur()->getId()) {
 
 
-                 $entityManager->persist($sortieC);
-                 $entityManager->flush();
+                // Formulaire pour l'envoi du motif en cas d'annulation
+                 $sortieCForm = $this->createForm(AnnulerSortieType::class, $sortieC);
+                 $sortieCForm->handleRequest($request);
+
+                 // requête sql récupération des valeurs en fonction de l'id de la sortie et de l'utilisateur.
+                // Pour afficher les informations sur la page.
+                 $sortieId = $sortieRepository->findIdAnnulSortie($sortieC->getId());
+
+                 // Permet de récuperer l'id 6 : état annulée
+                 $etat = new Etat();
+                 // Etat 6 : Annulée
+                 $etat = $etatRepository->find(6);
+
+                 $dateDuJour = new \DateTime();
+
+                    // si la date du jour est inférieur à celle de la date de début de la sortie
+                 if($dateDuJour <= $sortieC->getDateHeureDebut()) {
+                     if($sortieCForm->isSubmitted() && $sortieCForm->isValid()) {
+
+                         // Changement à l'état annulée
+                         $sortieC->setEtat($etat);
 
 
-                 $this->addFlash('success', 'Annulation de votre sortie, validée');
-                 return $this->redirectToRoute('main_home');
-             }
-
-         }
-         // Si date de début de sortie est dépassé, envoie de message d'erreur d'annulation
-//         elseif($dateDuJour >= $sortieC->getDateHeureDebut()) {
-//             $this->addFlash('fail', 'Vous avez passé la date limite pour pouvoir annuler');
-//             return $this->redirectToRoute('main_home');
-//         }
+                         $entityManager->persist($sortieC);
+                         $entityManager->flush();
 
 
-            return $this->render('gestion_sortie/sortieannulee.html.twig', [ 'sorties' => $sortieId,
-                'sortieCancelForm' => $sortieCForm->createView()
-        ]);
+                         $this->addFlash('success', 'Annulation de votre sortie, validée');
+                         return $this->redirectToRoute('main_home');
+                     }
+
+                 }
+                 
+                    return $this->render('gestion_sortie/sortieannulee.html.twig', [ 'sorties' => $sortieId,
+                        'sortieCancelForm' => $sortieCForm->createView()
+                ]);
+        }
+        else{
+            $this->addFlash('fail', 'Vous n\'êtes pas l\'organisateur de la sortie');
+            return $this->redirectToRoute('main_home');
+        }
     }
 
 

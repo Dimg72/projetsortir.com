@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Lieu;
+use App\Entity\Ville;
 use App\Form\LieuType;
 use App\Repository\LieuRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -28,18 +29,31 @@ class LieuController extends AbstractController
     /**
      * @Route("/new", name="lieu_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, LieuRepository $lieuRepository): Response
     {
         $lieu = new Lieu();
         $form = $this->createForm(LieuType::class, $lieu);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($lieu);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('lieu_index', [], Response::HTTP_SEE_OTHER);
+            $villeSelected = new Ville();
+            $villeSelected = $form->get('ville')->getData();
+            if (!$lieuRepository->findOneBySomeField($form->get('rue')->getData(),$form->get('ville')->getData()->getNom()))
+                {
+                    $entityManager = $this->getDoctrine()->getManager();
+                    $entityManager->persist($lieu);
+                    $entityManager->flush();
+                    $this->addFlash('success', 'Lieu ajouté');
+                    return $this->redirectToRoute('lieu_index', [], Response::HTTP_SEE_OTHER);
+                }
+            else
+                {
+                    $this->addFlash('fail', 'Ce lieu existe');
+                    return $this->render('lieu/new.html.twig', [
+                        'lieu' => $lieu,
+                        'form' => $form->createView(),
+                    ]);
+                }
         }
 
         return $this->render('lieu/new.html.twig', [

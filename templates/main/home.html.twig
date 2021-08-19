@@ -56,82 +56,31 @@
         {% set i = 0 %}
         {% for sortie in sorties %}
             {% if sortie.etat.libelle != "Créée"  or sortie.organisateur.id == app.user.id  %}
-            <tr>
-                <td>{{ sortie.nom }}</td>
-                <td>{{ sortie.dateHeureDebut |format_datetime('short', 'short', locale='fr') }}</td>
-                <td>{{ sortie.dateLimiteInscription |format_datetime('short', 'short', locale='fr') }}</td>
-                <td>{{ sortie.participants|length}}/{{ sortie.nbInscriptionsMax }}</td>
-                <td>{{ sortie.etat.libelle }}</td>
-                <td>{{ app.user in sortie.participants ?"x":"" }}</td>
-                <td><a href="#">{{ sortie.organisateur.prenom|first }}.{{ sortie.organisateur.nom }}</a></td>
-                <td>
-                    {#    si je suis orgnisateur    #}
-                    {% if sortie.organisateur.id == app.user.id %}
+                <tr>
+                    <td>{{ sortie.nom }}</td>
+                    <td>{{ sortie.dateHeureDebut |format_datetime('short', 'short', locale='fr') }}</td>
+                    <td>{{ sortie.dateLimiteInscription |format_datetime('short', 'short', locale='fr') }}</td>
+                    <td>{{ sortie.participants|length}}/{{ sortie.nbInscriptionsMax }}</td>
+                    <td>{{ sortie.etat.libelle }}</td>
+                    <td>{{ app.user in sortie.participants ?"x":"" }}</td>
+                    <td><a href="#">{{ sortie.organisateur.prenom|first }}.{{ sortie.organisateur.nom }}</a></td>
+                    <td>
+                        {#    si je suis orgnisateur    #}
+                        {% if sortie.organisateur.id == app.user.id %}
 
-                        {# si la sortie est en état  créé => visible que par le créateur avec bouton "modifier" + "publier" #}
-                        {% if sortie.etat.libelle == "Créée" %}
-                            <a href="#">Modifier</a> - <a href="#">Publier</a>
+                            {# si la sortie est en état  créé => visible que par le créateur avec bouton "modifier" + "publier" #}
+                            {% if sortie.etat.libelle == "Créée" %}
+                                <a href="#">Modifier</a> - <a href="{{ path('gestion_sortie/publier',{ 'id':sortie.id }) }}">Publier</a>
 
-                        {# si la sortie est en état ouverte  afficher le bouton "afficher" et "annuler"#}
+                            {# si la sortie est en état ouverte  afficher le bouton "afficher" et "annuler"#}
 
-                        {% elseif sortie.etat.libelle == "Ouverte" %}
-                            <a href="#">Afficher</a> - <a href="{{ path('gestion_sortie/annuler', {'id': sortie.id}) }}">Annuler</a>
+                            {% elseif sortie.etat.libelle == "Ouverte" %}
+                                <a href="#">Afficher</a> - <a href="{{ path('gestion_sortie/annuler', {'id': sortie.id}) }}">Annuler</a>
 
-                        {# si la sortie est en état cloturée afficher le bouton "afficher" et "annuler" #}
-
-                        {% elseif sortie.etat.libelle == "Cloturée" %}
-                            <a href="#">Afficher</a> - <a href="#">Annuler</a>
-
-                        {# si la sortie est en état  Activité en cours afficher le bouton "afficher"  #}
-
-                        {% elseif sortie.etat.libelle == "Activité en cours" %}
-                            <a href="#">Afficher</a>
-
-                        {# si la sortie est en état  Passée le bouton "afficher"  #}
-
-                        {% elseif sortie.etat.libelle == "Passé" %}
-                            <a href="#">Afficher</a>
-
-                        {% endif %}
-
-                    {% else %}
-
-                        {#  je verifie que la personne est inscite #}
-                        {% if  app.user in sortie.participants %}
-
-                            {# si la sortie est en état ouverte  afficher le bouton "afficher" et "Se désister"#}
-
-                            {% if sortie.etat.libelle == "Ouverte" %}
-                                <a href="#">Afficher</a> - <a href="{{ path('gestion_sortie/desister', {'id': sortie.id }) }}">Se désister</a>
-
-                            {# si la sortie est en état cloturée afficher le bouton "afficher" et "Se désister" #}
+                            {# si la sortie est en état cloturée afficher le bouton "afficher" et "annuler" #}
 
                             {% elseif sortie.etat.libelle == "Cloturée" %}
-                                <a href="#">Afficher</a> - <a href="#">Se désister</a>
-
-                            {# si la sortie est en état  Activité en cours afficher le bouton "afficher"  #}
-
-                            {% elseif sortie.etat.libelle == "Activité en cours"%}
-                                <a href="#">Afficher</a>
-
-                            {# si la sortie est en état  Passée le bouton "afficher"  #}
-
-                            {% elseif sortie.etat.libelle == "Passée" %}
-                                <a href="#">Afficher</a>
-
-                            {% endif %}
-
-                        {% else %}
-
-                            {# si la sortie est en état ouverte  afficher le bouton "afficher" et "S'inscrire"#}
-
-                            {% if sortie.etat.libelle == "Ouverte" %}
-                                <a href="#">Afficher</a> - <a href="{{ path('gestion_sortie/sinscrire', {'id': sortie.id}) }}">S'inscrire</a>
-
-                            {# si la sortie est en état cloturée afficher le bouton "afficher" #}
-
-                            {% elseif sortie.etat.libelle == "Cloturée" %}
-                                <a href="#">Afficher</a>
+                                <a href="#">Afficher</a> - <a href="{{ path('gestion_sortie/annuler') }}">Annuler</a>
 
                             {# si la sortie est en état  Activité en cours afficher le bouton "afficher"  #}
 
@@ -140,16 +89,67 @@
 
                             {# si la sortie est en état  Passée le bouton "afficher"  #}
 
-                            {% elseif sortie.etat.libelle == "Passée" %}
+                            {% elseif sortie.etat.libelle == "Passé" %}
                                 <a href="#">Afficher</a>
 
                             {% endif %}
 
-                        {% endif %}
+                        {% else %}
 
-                    {% endif %}
-                </td>
-            </tr>
+                            {#  je verifie que la personne est inscite #}
+                            {% if  app.user in sortie.participants %}
+
+                                {# si la sortie est en état ouverte  afficher le bouton "afficher" et "Se désister"#}
+
+                                {% if sortie.etat.libelle == "Ouverte" %}
+                                    <a href="#">Afficher</a> - <a href="{{ path('gestion_sortie/desister', {'id': sortie.id }) }}">Se désister</a>
+
+                                {# si la sortie est en état cloturée afficher le bouton "afficher" et "Se désister" #}
+
+                                {% elseif sortie.etat.libelle == "Cloturée" %}
+                                    <a href="#">Afficher</a> - <a href="{{ path('gestion_sortie/desister') }}">Se désister</a>
+
+                                {# si la sortie est en état  Activité en cours afficher le bouton "afficher"  #}
+
+                                {% elseif sortie.etat.libelle == "Activité en cours"%}
+                                    <a href="#">Afficher</a>
+
+                                {# si la sortie est en état  Passée le bouton "afficher"  #}
+
+                                {% elseif sortie.etat.libelle == "Passée" %}
+                                    <a href="#">Afficher</a>
+
+                                {% endif %}
+
+                            {% else %}
+
+                                {# si la sortie est en état ouverte  afficher le bouton "afficher" et "S'inscrire"#}
+
+                                {% if sortie.etat.libelle == "Ouverte" %}
+                                    <a href="#">Afficher</a> - <a href="{{ path('gestion_sortie/sinscrire', {'id': sortie.id}) }}">S'inscrire</a>
+
+                                {# si la sortie est en état cloturée afficher le bouton "afficher" #}
+
+                                {% elseif sortie.etat.libelle == "Cloturée" %}
+                                    <a href="#">Afficher</a>
+
+                                {# si la sortie est en état  Activité en cours afficher le bouton "afficher"  #}
+
+                                {% elseif sortie.etat.libelle == "Activité en cours" %}
+                                    <a href="#">Afficher</a>
+
+                                {# si la sortie est en état  Passée le bouton "afficher"  #}
+
+                                {% elseif sortie.etat.libelle == "Passée" %}
+                                    <a href="#">Afficher</a>
+
+                                {% endif %}
+
+                            {% endif %}
+
+                        {% endif %}
+                    </td>
+                </tr>
             {% endif %}
             {% set i = i+1 %}
         {% endfor %}

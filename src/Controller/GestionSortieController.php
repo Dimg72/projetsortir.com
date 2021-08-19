@@ -144,6 +144,27 @@ class GestionSortieController extends AbstractController
         }
     }
 
+    /**
+     * @Route("/gestion/publiersortie/{id}", name="gestion_sortie/publier")
+     */
+    public function publierSortie(Sortie $sortie, EntityManagerInterface $entityManager, EtatRepository $etatRepository): Response{
+
+        if($sortie->getEtat()->getId()==1){
+
+            $etat = $etatRepository->find(2);
+            $sortie->setEtat($etat);
+            $entityManager->persist($sortie);
+            $entityManager->flush();
+            $this->addFlash('success', 'Votre sortie a bien été publiée');
+            return $this->redirectToRoute('main_home');
+        }
+      else{
+          $this->addFlash('fail', 'Votre sortie est déjà publié');
+          return $this->redirectToRoute('main_home');
+      }
+
+    }
+
 
 
 

@@ -39,7 +39,8 @@ class Sortie
     /**
      * @Assert\Range(
      *     min=0,
-     *     notInRangeMessage="{{ min }} : Veuillez saisir une durée supérieur à 0"
+     *     max=2500,
+     *     notInRangeMessage="{{ min }} : Veuillez saisir une durée supérieur à 0",
      * )
      * @Assert\Length(
      *     min=1,
@@ -59,7 +60,8 @@ class Sortie
     /**
      * @Assert\Range(
      *     min=0,
-     *     notInRangeMessage="{{ min }} : Veuillez saisir une durée supérieur à 0"
+     *     max=2500,
+     *     notInRangeMessage="{{ min }} : Veuillez saisir une durée supérieur à 0",
      * )
      * @ORM\Column(type="smallint")
      */

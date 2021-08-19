@@ -40,6 +40,9 @@ textarea
     margin-top : 35px;
     margin-right: 55px;
 }
+.bouttonFormAnnuler.lienAnnuler:link {
+    text-decoration: none;
+}
 
 .supputilisateurtitre {
     text-align: center;

@@ -118,9 +118,17 @@ class MainController extends AbstractController
             'createSortieForm' => $createSortieForm->createView(),
             'lieux'=> $lieux,
         ]);
-
-
     }
 
+    /**
+     * @Route ("/sortie/{id}", name="sortie_detail")
+     */
+    public function detailSortie(int $id, SortieRepository $sortieRepository)
+    {
+        $sortie = $sortieRepository->findOneBySomeField($id);
 
+        return $this->render('main/detailsSortie.html.twig', [
+            'sortie' => $sortie
+        ]);
+    }
 }

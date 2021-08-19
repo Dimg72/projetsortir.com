@@ -49,3 +49,4 @@ security:
         - { path: ^/gestion, roles: ROLE_USER }
         - { path: ^/participants, roles: ROLE_USER }
         - { path: ^/ville, roles: ROLE_USER }
+        - { path: ^/sortie, roles: ROLE_USER }

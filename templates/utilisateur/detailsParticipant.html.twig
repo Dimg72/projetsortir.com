@@ -24,7 +24,12 @@
             </div>
         </div>
         <div>
-            <a class="details-link mt-3" href="{{ path('participants_liste') }}">Retour à la liste des participants</a>
+            {% if is_granted('ROLE_ADMIN') %}
+                <a class="details-link mt-3" href="{{ path('participants_liste') }}">Retour à la liste des participants</a>
+                <a class="details-link mt-3" href="{{ path('main_home') }}">Retour à la liste des sorties</a>
+            {% else %}
+                <a class="details-link mt-3" href="{{ path('main_home') }}">Retour à la liste des sorties</a>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

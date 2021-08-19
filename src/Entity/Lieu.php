@@ -46,9 +46,11 @@ class Lieu
     private $ville;
 
     /**
-     * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="lieu")
+     * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="lieu", orphanRemoval=true)
      */
     private $sorties;
+
+
 
     public function __construct()
     {
@@ -149,4 +151,5 @@ class Lieu
 
         return $this;
     }
+
 }

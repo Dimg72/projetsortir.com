@@ -157,6 +157,7 @@ a.details-link:hover{
     color: #00008BFF;
 }
 
-
-
-
+.app-tableSize{
+    overflow: scroll;
+    height: 500px;
+}

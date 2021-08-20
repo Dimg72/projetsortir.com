@@ -24,9 +24,6 @@ class Participant implements UserInterface
     private $id;
 
     /**
-     * @Assert\Email(
-     *     message="l'email '{{ value }}' n'est pas un email valide"
-     * )
      * @ORM\Column(type="string", length=180, unique=true)
      */
     private $email;

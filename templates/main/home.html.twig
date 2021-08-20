@@ -38,101 +38,101 @@
     </div>
 
     {{ form_end(FilterActivityForm) }}
+    <div class="app-tableSize">
+        <table class="table table-striped ">
+            <thead class="app-thead">
+            <tr>
+                <th>Nom de la sortie</th>
+                <th>Date de sortie</th>
+                <th>Clôture</th>
+                <th>Inscrits/Places</th>
+                <th>Etat</th>
+                <th>Inscrit</th>
+                <th>Organisateur</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% set i = 0 %}
+            {% for sortie in sorties %}
+                {% if sortie.etat.libelle != "Créée"  or sortie.organisateur.id == app.user.id%}
+                    {% if sortie.dateHeureDebut > 'now'|date_modify("-1 month")%}
+                        <tr>
+                            <td>{{ sortie.nom }}</td>
+                            <td>{{ sortie.dateHeureDebut |format_datetime('short', 'short', locale='fr') }}</td>
+                            <td>{{ sortie.dateLimiteInscription |format_datetime('short', 'short', locale='fr') }}</td>
+                            <td>{{ sortie.participants|length}}/{{ sortie.nbInscriptionsMax }}</td>
+                            <td>{{ sortie.etat.libelle }}</td>
+                            <td>{{ app.user in sortie.participants ?"x":"" }}</td>
+                            <td><a href="{{ path('participants_details', {'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.prenom|first }}.{{ sortie.organisateur.nom }}</a></td>
+                            <td>
+                                {#    si je suis orgnisateur    #}
+                                {% if sortie.organisateur.id == app.user.id %}
 
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>Nom de la sortie</th>
-            <th>Date de sortie</th>
-            <th>Clôture</th>
-            <th>Inscrits/Places</th>
-            <th>Etat</th>
-            <th>Inscrit</th>
-            <th>Organisateur</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% set i = 0 %}
-        {% for sortie in sorties %}
-            {% if sortie.etat.libelle != "Créée"  or sortie.organisateur.id == app.user.id%}
-                {% if sortie.dateHeureDebut > 'now'|date_modify("-1 month")%}
-                    <tr>
-                        <td>{{ sortie.nom }}</td>
-                        <td>{{ sortie.dateHeureDebut |format_datetime('short', 'short', locale='fr') }}</td>
-                        <td>{{ sortie.dateLimiteInscription |format_datetime('short', 'short', locale='fr') }}</td>
-                        <td>{{ sortie.participants|length}}/{{ sortie.nbInscriptionsMax }}</td>
-                        <td>{{ sortie.etat.libelle }}</td>
-                        <td>{{ app.user in sortie.participants ?"x":"" }}</td>
-                        <td><a href="{{ path('participants_details', {'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.prenom|first }}.{{ sortie.organisateur.nom }}</a></td>
-                        <td>
-                            {#    si je suis orgnisateur    #}
-                            {% if sortie.organisateur.id == app.user.id %}
+                                    {#  je verifie que la personne est inscite #}
+                                    {% if  app.user in sortie.participants %}
 
-                                {#  je verifie que la personne est inscite #}
-                                {% if  app.user in sortie.participants %}
+                                        {# si la sortie est en état  créé => visible que par le créateur avec bouton "modifier" + "publier" #}
+                                        {% if sortie.etat.libelle == "Créée" %}
+                                            <a href="{{ path('sortie_update',{'id':sortie.id}) }}">Modifier</a> | <a href="{{ path('gestion_sortie/publier',{ 'id':sortie.id }) }}">Publier</a>
 
-                                    {# si la sortie est en état  créé => visible que par le créateur avec bouton "modifier" + "publier" #}
-                                    {% if sortie.etat.libelle == "Créée" %}
-                                        <a href="{{ path('sortie_update',{'id':sortie.id}) }}">Modifier</a> | <a href="{{ path('gestion_sortie/publier',{ 'id':sortie.id }) }}">Publier</a>
+                                            {# si la sortie est en état ouverte  afficher le bouton "afficher" et "annuler"#}
 
-                                    {# si la sortie est en état ouverte  afficher le bouton "afficher" et "annuler"#}
-
-                                    {% elseif sortie.etat.libelle == "Ouverte" %}
-                                        <a href="{{ path('sortie_detail', {'id': sortie.id}) }}">Afficher</a> | <a href="{{ path('gestion_sortie/desister',{'id':sortie.id})}}">Se désister</a> |
-                                        <a href="{{ path('gestion_sortie/annuler', {'id': sortie.id}) }}">Annuler</a>
-
-
-                                        {# si la sortie est en état cloturée afficher le bouton "afficher" et "annuler" #}
-
-                                    {% elseif sortie.etat.libelle == "Cloturée" %}
-                                        <a href="{{ path('sortie_detail', {'id': sortie.id}) }}">Afficher</a> | <a href="{{ path('gestion_sortie/desister',{'id':sortie.id})}}">Se désister</a> |
-                                        <a href="{{ path('gestion_sortie/annuler', {'id': sortie.id}) }}">Annuler</a>
+                                        {% elseif sortie.etat.libelle == "Ouverte" %}
+                                            <a href="{{ path('sortie_detail', {'id': sortie.id}) }}">Afficher</a> | <a href="{{ path('gestion_sortie/desister',{'id':sortie.id})}}">Se désister</a> |
+                                            <a href="{{ path('gestion_sortie/annuler', {'id': sortie.id}) }}">Annuler</a>
 
 
-                                        {# si la sortie est en état  Activité en cours afficher le bouton "afficher"  #}
+                                            {# si la sortie est en état cloturée afficher le bouton "afficher" et "annuler" #}
 
-                                    {% elseif sortie.etat.libelle == "Activité en cours" %}
-                                        <a href="{{ path('sortie_detail', {'id': sortie.id}) }}">Afficher</a>
+                                        {% elseif sortie.etat.libelle == "Cloturée" %}
+                                            <a href="{{ path('sortie_detail', {'id': sortie.id}) }}">Afficher</a> | <a href="{{ path('gestion_sortie/desister',{'id':sortie.id})}}">Se désister</a> |
+                                            <a href="{{ path('gestion_sortie/annuler', {'id': sortie.id}) }}">Annuler</a>
 
-                                        {# si la sortie est en état  Passée le bouton "afficher"  #}
 
-                                    {% elseif sortie.etat.libelle == "Passé" %}
-                                        <a href="{{ path('sortie_detail', {'id': sortie.id}) }}">Afficher</a>
+                                            {# si la sortie est en état  Activité en cours afficher le bouton "afficher"  #}
 
-                                    {% endif %}
+                                        {% elseif sortie.etat.libelle == "Activité en cours" %}
+                                            <a href="{{ path('sortie_detail', {'id': sortie.id}) }}">Afficher</a>
+
+                                            {# si la sortie est en état  Passée le bouton "afficher"  #}
+
+                                        {% elseif sortie.etat.libelle == "Passé" %}
+                                            <a href="{{ path('sortie_detail', {'id': sortie.id}) }}">Afficher</a>
+
+                                        {% endif %}
+
+                                    {% else %}
+
+                                        {# si la sortie est en état  créé => visible que par le créateur avec bouton "modifier" + "publier" #}
+                                        {% if sortie.etat.libelle == "Créée" %}
+                                            <a href="{{ path('sortie_update',{'id':sortie.id}) }}">Modifier</a> | <a href="{{ path('gestion_sortie/publier',{ 'id':sortie.id }) }}">Publier</a>
+
+                                            {# si la sortie est en état ouverte  afficher le bouton "afficher" et "annuler"#}
+
+                                        {% elseif sortie.etat.libelle == "Ouverte" %}
+                                            <a href="{{ path('sortie_detail', {'id': sortie.id}) }}">Afficher</a> | <a href="{{ path('gestion_sortie/sinscrire',{'id':sortie.id})}}">S'inscire</a> |
+                                            <a href="{{ path('gestion_sortie/annuler', {'id': sortie.id}) }}">Annuler</a>
+
+
+                                            {# si la sortie est en état cloturée afficher le bouton "afficher" et "annuler" #}
+
+                                        {% elseif sortie.etat.libelle == "Cloturée" %}
+                                            <a href="{{ path('sortie_detail', {'id': sortie.id}) }}">Afficher</a> | <a href="{{ path('gestion_sortie/annuler', {'id': sortie.id}) }}">Annuler</a>
+
+                                            {# si la sortie est en état  Activité en cours afficher le bouton "afficher"  #}
+
+                                        {% elseif sortie.etat.libelle == "Activité en cours" %}
+                                            <a href="{{ path('sortie_detail', {'id': sortie.id}) }}">Afficher</a>
+
+                                            {# si la sortie est en état  Passée le bouton "afficher"  #}
+
+                                        {% elseif sortie.etat.libelle == "Passée" %}
+                                            <a href="{{ path('sortie_detail', {'id': sortie.id}) }}">Afficher</a>
+                                        {% endif %}
+                                    {% endif%}
 
                                 {% else %}
-
-                                    {# si la sortie est en état  créé => visible que par le créateur avec bouton "modifier" + "publier" #}
-                                    {% if sortie.etat.libelle == "Créée" %}
-                                        <a href="{{ path('sortie_update',{'id':sortie.id}) }}">Modifier</a> | <a href="{{ path('gestion_sortie/publier',{ 'id':sortie.id }) }}">Publier</a>
-
-                                        {# si la sortie est en état ouverte  afficher le bouton "afficher" et "annuler"#}
-
-                                    {% elseif sortie.etat.libelle == "Ouverte" %}
-                                        <a href="{{ path('sortie_detail', {'id': sortie.id}) }}">Afficher</a> | <a href="{{ path('gestion_sortie/sinscrire',{'id':sortie.id})}}">S'inscire</a> |
-                                        <a href="{{ path('gestion_sortie/annuler', {'id': sortie.id}) }}">Annuler</a>
-
-
-                                        {# si la sortie est en état cloturée afficher le bouton "afficher" et "annuler" #}
-
-                                    {% elseif sortie.etat.libelle == "Cloturée" %}
-                                        <a href="{{ path('sortie_detail', {'id': sortie.id}) }}">Afficher</a> | <a href="{{ path('gestion_sortie/annuler', {'id': sortie.id}) }}">Annuler</a>
-
-                                        {# si la sortie est en état  Activité en cours afficher le bouton "afficher"  #}
-
-                                    {% elseif sortie.etat.libelle == "Activité en cours" %}
-                                        <a href="{{ path('sortie_detail', {'id': sortie.id}) }}">Afficher</a>
-
-                                        {# si la sortie est en état  Passée le bouton "afficher"  #}
-
-                                    {% elseif sortie.etat.libelle == "Passée" %}
-                                        <a href="{{ path('sortie_detail', {'id': sortie.id}) }}">Afficher</a>
-                                    {% endif %}
-                                {% endif%}
-
-                            {% else %}
 
                                     {#  je verifie que la personne est inscite #}
                                     {% if  app.user in sortie.participants %}
@@ -168,45 +168,47 @@
 
                                         {# si la sortie est en état ouverte  afficher le bouton "afficher" et "S'inscrire"#}
 
-                                    {% if sortie.etat.libelle == "Ouverte" %}
-                                        <a href="{{ path('sortie_detail', {'id': sortie.id}) }}">Afficher</a> | <a href="{{ path('gestion_sortie/sinscrire', {'id': sortie.id}) }}">S'inscrire</a>
-                                        {% if is_granted('ROLE_ADMIN') %}
-                                            |  <a href="{{ path('gestion_sortie/annuler', {'id': sortie.id}) }}">Annuler</a>
+                                        {% if sortie.etat.libelle == "Ouverte" %}
+                                            <a href="{{ path('sortie_detail', {'id': sortie.id}) }}">Afficher</a> | <a href="{{ path('gestion_sortie/sinscrire', {'id': sortie.id}) }}">S'inscrire</a>
+                                            {% if is_granted('ROLE_ADMIN') %}
+                                                |  <a href="{{ path('gestion_sortie/annuler', {'id': sortie.id}) }}">Annuler</a>
+                                            {% endif %}
+
+                                            {# si la sortie est en état cloturée afficher le bouton "afficher" #}
+
+                                        {% elseif sortie.etat.libelle == "Cloturée" %}
+                                            <a href="{{ path('sortie_detail', {'id': sortie.id}) }}">Afficher</a>
+                                            {% if is_granted('ROLE_ADMIN') %}
+                                                |  <a href="{{ path('gestion_sortie/annuler', {'id': sortie.id}) }}">Annuler</a>
+                                            {% endif %}
+
+                                            {# si la sortie est en état  Activité en cours afficher le bouton "afficher"  #}
+
+                                        {% elseif sortie.etat.libelle == "Activité en cours" %}
+                                            <a href="{{ path('sortie_detail', {'id': sortie.id}) }}">Afficher</a>
+
+                                            {# si la sortie est en état  Passée le bouton "afficher"  #}
+
+                                        {% elseif sortie.etat.libelle == "Passée" %}
+                                            <a href="{{ path('sortie_detail', {'id': sortie.id}) }}">Afficher</a>
+
                                         {% endif %}
-
-                                        {# si la sortie est en état cloturée afficher le bouton "afficher" #}
-
-                                    {% elseif sortie.etat.libelle == "Cloturée" %}
-                                        <a href="{{ path('sortie_detail', {'id': sortie.id}) }}">Afficher</a>
-                                        {% if is_granted('ROLE_ADMIN') %}
-                                            |  <a href="{{ path('gestion_sortie/annuler', {'id': sortie.id}) }}">Annuler</a>
-                                        {% endif %}
-
-                                    {# si la sortie est en état  Activité en cours afficher le bouton "afficher"  #}
-
-                                    {% elseif sortie.etat.libelle == "Activité en cours" %}
-                                        <a href="{{ path('sortie_detail', {'id': sortie.id}) }}">Afficher</a>
-
-                                    {# si la sortie est en état  Passée le bouton "afficher"  #}
-
-                                    {% elseif sortie.etat.libelle == "Passée" %}
-                                        <a href="{{ path('sortie_detail', {'id': sortie.id}) }}">Afficher</a>
-
-                                    {% endif %}
 
                                     {% endif %}
 
                                 {% endif %}
                             </td>
                         </tr>
+                    {% endif %}
                 {% endif %}
-            {% endif %}
-            {% set i = i+1 %}
-        {% endfor %}
-          </tbody>
-    </table>
+                {% set i = i+1 %}
+            {% endfor %}
+            </tbody>
+        </table>
 
-    <a href="{{ path('main_create') }}"><button class="btn-lg">Créer une sortie</button></a>
+    </div>
+
+    <a href="{{ path('main_create') }}"><button class="btn-lg btn-dark mt-3">Créer une sortie</button></a>
 </div>
 
 {% endblock %}

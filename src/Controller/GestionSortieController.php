@@ -84,7 +84,7 @@ class GestionSortieController extends AbstractController
 
 
     /**
-     * @Route("/gestion/inscriresortie/{id}", name="gestion_sortie/sinscrire")
+         * @Route("/gestion/inscriresortie/{id}", name="gestion_sortie/sinscrire")
      */
     public function inscrireSortie(Sortie $sortie, EtatRepository $etatRepository,
                                    EntityManagerInterface $entityManager) : Response {

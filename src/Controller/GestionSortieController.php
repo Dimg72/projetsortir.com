@@ -70,6 +70,11 @@ class GestionSortieController extends AbstractController
                          return $this->redirectToRoute('main_home');
                      }
 
+
+                 }
+                 else{
+                     $this->addFlash('fail', 'Vous ne pouvez plus annuler votre sortie');
+                     return $this->redirectToRoute('main_home');
                  }
                  
                     return $this->render('gestion_sortie/sortieannulee.html.twig', [ 'sorties' => $sortieId,

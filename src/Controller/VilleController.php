@@ -45,7 +45,7 @@ class VilleController extends AbstractController
 
                     $this->addFlash('success', 'La ville a bien été ajoutée');
 
-                    return $this->redirectToRoute('ville_index', [], Response::HTTP_SEE_OTHER);
+                    return $this->redirectToRoute('lieu_new', [], Response::HTTP_SEE_OTHER);
                 }
             else
                 {

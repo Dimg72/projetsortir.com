@@ -50,3 +50,5 @@ security:
         - { path: ^/participants, roles: ROLE_USER }
         - { path: ^/ville, roles: ROLE_ADMIN }
         - { path: ^/sortie, roles: ROLE_USER }
+        - { path: ^/create, roles: ROLE_USER }
+        - { path: ^/update, roles: ROLE_USER }

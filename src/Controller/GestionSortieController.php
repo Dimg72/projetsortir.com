@@ -36,7 +36,7 @@ class GestionSortieController extends AbstractController
     public function annulerSortie(Sortie $sortieC, Request $request, EntityManagerInterface $entityManager,
                                   SortieRepository $sortieRepository, EtatRepository $etatRepository) : Response {
 
-        if($this->getUser()->getId() == $sortieC->getOrganisateur()->getId()) {
+        if($this->getUser()->getId() == $sortieC->getOrganisateur()->getId() OR $this->getUser()->getAdministrateur() == true) {
 
 
                 // Formulaire pour l'envoi du motif en cas d'annulation
